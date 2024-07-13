@@ -1,1 +1,5 @@
+body {
+    /* Degradado lineal en un ángulo de 45 grados */
+    background: linear-gradient(45deg, #8a2be2, #ffff00, #ffffff);
+}
 
