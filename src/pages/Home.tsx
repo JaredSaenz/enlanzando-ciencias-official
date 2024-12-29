@@ -79,9 +79,9 @@ const Home = () => {
               data-tabs="timeline" 
               data-width="500" 
               data-height="700" 
-              data-small-header="false" 
+              data-small-header="true" 
               data-adapt-container-width="true" 
-              data-hide-cover="false" 
+              data-hide-cover="true" 
               data-show-facepile="true">
                 <blockquote cite="https://www.facebook.com/Enlazando.ciencias" className="fb-xfbml-parse-ignore">
                   <a href="https://www.facebook.com/Enlazando.ciencias">Enlazando Ciencias</a>
