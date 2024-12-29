@@ -14,7 +14,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
-              <img className="h-8 w-auto" src="/logo.png" alt="Enlazando Ciencias" />
+              <img className="h-14 w-auto" src="/logo.jpg" alt="Enlazando Ciencias" />
             </Link>
           </div>
           <div className="hidden md:block">
