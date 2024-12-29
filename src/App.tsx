@@ -1,13 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Home from './pages/Home'
-import QuienesSomos from './pages/QuienesSomos'
-import Actividades from './pages/Actividades'
-import Divulgacion from './pages/Divulgacion'
-import Unete from './pages/Unete'
-import Contacto from './pages/Contacto'
+import Navbar from './components/Navbar.tsx'
+import Footer from './components/Footer.tsx'
+import Home from './pages/Home.tsx'
+import QuienesSomos from './pages/QuienesSomos.tsx'
+import Actividades from './pages/Actividades.tsx'
+import Divulgacion from './pages/Divulgacion.tsx'
+import Unete from './pages/Unete.tsx'
+import Contacto from './pages/Contacto.tsx'
 
 function App() {
   return (
