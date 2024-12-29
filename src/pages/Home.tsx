@@ -1,12 +1,19 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import AnimatedSection from '../components/AnimatedSection'
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import AnimatedSection from '../components/AnimatedSection';
 
 const Home = () => {
+  // Asegurarse de que el SDK de Facebook cargue correctamente
+  useEffect(() => {
+    if (window.FB) {
+      window.FB.XFBML.parse();
+    }
+  }, []);
+
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <div 
+      <div
         className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
         style={{
           backgroundImage: "url('/mesa_directiva_EC.jpg')",
@@ -18,9 +25,6 @@ const Home = () => {
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
               Bienvenidos a Enlazando Ciencias
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-white sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-              Somos una sociedad estudiantil dedicada a conectar diferentes disciplinas científicas para fomentar la innovación y el conocimiento interdisciplinario.
-            </p>
           </AnimatedSection>
         </div>
       </div>
@@ -74,15 +78,16 @@ const Home = () => {
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">Síguenos en Facebook</h2>
             <div className="bg-white shadow-lg rounded-lg p-6 overflow-hidden">
-            <div className="fb-page" 
-              data-href="https://www.facebook.com/Enlazando.ciencias" 
-              data-tabs="timeline" 
-              data-width="500" 
-              data-height="700" 
-              data-small-header="true" 
-              data-adapt-container-width="true" 
-              data-hide-cover="true" 
-              data-show-facepile="true">
+              <div
+                className="fb-page"
+                data-href="https://www.facebook.com/Enlazando.ciencias"
+                data-tabs="timeline"
+                data-width="500"
+                data-height="700"
+                data-small-header="true"
+                data-adapt-container-width="true"
+                data-hide-cover="true"
+                data-show-facepile="true">
                 <blockquote cite="https://www.facebook.com/Enlazando.ciencias" className="fb-xfbml-parse-ignore">
                   <a href="https://www.facebook.com/Enlazando.ciencias">Enlazando Ciencias</a>
                 </blockquote>
@@ -92,8 +97,9 @@ const Home = () => {
         </AnimatedSection>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
+
 

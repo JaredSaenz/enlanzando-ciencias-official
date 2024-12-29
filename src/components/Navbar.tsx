@@ -9,12 +9,12 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
-    <nav className="bg-[#552673] text-white">
+    <nav className="bg-gradient-to-r from-white via-[#552673] via-16.67% to-[#552673] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0">
-              <img className="h-14 w-auto" src="/logo.jpg" alt="Enlazando Ciencias" />
+              <img className="h-16 w-auto" src="/logo.png" alt="Enlazando Ciencias" />
             </Link>
           </div>
           <div className="hidden md:block">
