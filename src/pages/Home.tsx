@@ -9,7 +9,7 @@ const Home = () => {
       <div 
         className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/placeholder-group-photo.jpg')",
+          backgroundImage: "url('/mesa_directiva_EC.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -48,7 +48,7 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {['Talleres', 'Conferencias', 'HETC'].map((activity, index) => (
                 <div key={index} className="text-center">
-                  <img src={`/placeholder-${activity.toLowerCase()}.jpg`} alt={activity} className="w-full h-48 object-cover rounded-lg mb-4" />
+                  <img src={`/${activity.toLowerCase()}_EC.jpg`} alt={activity} className="w-full h-48 object-cover rounded-lg mb-4" />
                   <Link to="/actividades" className="text-[#552673] font-semibold hover:text-[#935da3] transition duration-300">
                     {activity}
                   </Link>
@@ -74,17 +74,17 @@ const Home = () => {
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">Síguenos en Facebook</h2>
             <div className="bg-white shadow-lg rounded-lg p-6 overflow-hidden">
-              <div className="fb-page" 
-                data-href="https://www.facebook.com/enlazandociencias" 
-                data-tabs="timeline" 
-                data-width="500" 
-                data-height="700" 
-                data-small-header="false" 
-                data-adapt-container-width="true" 
-                data-hide-cover="false" 
-                data-show-facepile="true">
-                <blockquote cite="https://www.facebook.com/enlazandociencias" className="fb-xfbml-parse-ignore">
-                  <a href="https://www.facebook.com/enlazandociencias">Enlazando Ciencias</a>
+            <div className="fb-page" 
+              data-href="https://www.facebook.com/Enlazando.ciencias" 
+              data-tabs="timeline" 
+              data-width="500" 
+              data-height="700" 
+              data-small-header="false" 
+              data-adapt-container-width="true" 
+              data-hide-cover="false" 
+              data-show-facepile="true">
+                <blockquote cite="https://www.facebook.com/Enlazando.ciencias" className="fb-xfbml-parse-ignore">
+                  <a href="https://www.facebook.com/Enlazando.ciencias">Enlazando Ciencias</a>
                 </blockquote>
               </div>
             </div>
