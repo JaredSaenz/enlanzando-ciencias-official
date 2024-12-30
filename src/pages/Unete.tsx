@@ -6,10 +6,19 @@ const Unete = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-cover bg-center h-[50vh]" style={{ backgroundImage: "url('/path-to-unete-hero-image.jpg')" }}>
+      <div
+        className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+        }}
+      >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-5xl font-bold text-white text-center">Únete a Enlazando Ciencias</h1>
+        <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
+              ¡Únete a Enlazando Ciencias!
+            </h1>
+          </AnimatedSection>
         </div>
       </div>
 
