@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useRef } from 'react';
 import AnimatedSection from '../components/AnimatedSection'
-import { Mail, Phone, Clock } from 'lucide-react'
+import { Mail, Phone, Clock, ChevronDown } from 'lucide-react'
 
 const Contacto = () => {
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null)
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
@@ -18,11 +26,16 @@ const Contacto = () => {
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
               Contáctanos
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      {/* Contenido principal */}
+      <div ref={contentRef} className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <p className="text-xl text-gray-700 mb-12 text-center">
             Si deseas que acudamos a tu institución a impartir un taller, actividad y demás, no dudes en contactarnos.
@@ -69,7 +82,7 @@ const Contacto = () => {
             <p className="text-xl text-gray-700 mb-8">
               Estamos emocionados por colaborar contigo y llevar la magia de la ciencia a tu institución.
             </p>
-            <a 
+            <a
               href="mailto:enlazando.ciencia@gmail.com"
               className="inline-block bg-[#552673] text-white font-semibold py-3 px-8 rounded-md hover:bg-[#935da3] transition-colors text-lg"
             >

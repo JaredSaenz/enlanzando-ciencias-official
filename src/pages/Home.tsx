@@ -1,15 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
 import NewsBar from '../components/NewsBar';
+import { ChevronDown } from 'lucide-react'; // Importamos el icono de flecha hacia abajo
 
 const Home = () => {
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null);
+
   // Asegurarse de que el SDK de Facebook cargue correctamente
   useEffect(() => {
     if (window.FB) {
       window.FB.XFBML.parse();
     }
   }, []);
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="bg-white">
@@ -26,6 +35,10 @@ const Home = () => {
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
               Bienvenidos a Enlazando Ciencias
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
@@ -34,7 +47,7 @@ const Home = () => {
       <NewsBar />
 
       {/* Rest of the content */}
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div ref={contentRef} className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">¿Quiénes somos?</h2>
@@ -105,4 +118,3 @@ const Home = () => {
 };
 
 export default Home;
-

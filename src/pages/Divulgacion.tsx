@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import AnimatedSection from '../components/AnimatedSection'
+import { ChevronDown } from 'lucide-react'
 
 const Divulgacion = () => {
   const [activeTab, setActiveTab] = useState<number | null>(null)
 
   const toggleTab = (index: number) => {
     setActiveTab(activeTab === index ? null : index)
+  }
+
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null)
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
   }
 
   const tabs = [
@@ -40,13 +49,17 @@ const Divulgacion = () => {
         <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-              Divulgación
+              Divulgación Científica
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div  ref={contentRef} className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <p className="text-xl text-gray-700 mb-8 text-center">
             En Enlazando Ciencias, creemos en la importancia de compartir el conocimiento científico con la comunidad.

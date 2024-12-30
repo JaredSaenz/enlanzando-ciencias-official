@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
+import { ChevronDown } from 'lucide-react';
+
 
 const QuienesSomos = () => {
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null)
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <div className="bg-white min-h-screen">
       {/* Sección Hero con imagen de grupo */}
@@ -15,14 +25,18 @@ const QuienesSomos = () => {
         <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-              ¿Quiénes somos?
+              ¿Quiénes Somos?
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
 
       {/* Contenido principal */}
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <div ref={contentRef} className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
         {/* Sección ¿Quiénes somos? */}
         <AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">

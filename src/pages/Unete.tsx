@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import AnimatedSection from '../components/AnimatedSection'
-import { PhoneIcon as WhatsappIcon } from 'lucide-react'
+import { PhoneIcon as WhatsappIcon, ChevronDown } from 'lucide-react'
 
 const Unete = () => {
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null)
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
@@ -18,11 +26,15 @@ const Unete = () => {
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
               ¡Únete a Enlazando Ciencias!
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      <div ref={contentRef} className="max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-[#552673] mb-6">¡Gracias por tu interés!</h2>
@@ -36,10 +48,10 @@ const Unete = () => {
           <div className="bg-[#f3e8f7] rounded-lg shadow-lg p-8 mt-8">
             <h3 className="text-2xl font-semibold text-[#552673] mb-4">¿Cómo unirte?</h3>
             <p className="text-lg text-gray-700 mb-6">
-              Para comenzar esta emocionante aventura, únete a nuestro grupo de WhatsApp. 
+              Para comenzar esta emocionante aventura, únete a nuestro grupo de WhatsApp.
               Allí nos pondremos en contacto contigo y te daremos toda la información necesaria.
             </p>
-            <a 
+            <a
               href="https://chat.whatsapp.com/Ck31YZMkxTB4sPYahkDJor"
               target="_blank"
               rel="noopener noreferrer"

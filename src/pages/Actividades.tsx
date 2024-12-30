@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useRef } from 'react';
 import AnimatedSection from '../components/AnimatedSection'
+import { ChevronDown } from 'lucide-react';
 
 const Actividades = () => {
+  // Referencia para el contenido hacia donde nos desplazaremos
+  const contentRef = useRef(null);
+
+  // Función para desplazar la página hacia el contenido
+  const scrollToContent = () => {
+    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const sections = [
     {
       title: "Talleres",
@@ -35,7 +44,7 @@ const Actividades = () => {
     }
   ]
 
-  return (    
+  return (
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
       <div
@@ -48,21 +57,24 @@ const Actividades = () => {
         <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-              Nuestras actividades
+              Nuestras Actividades
             </h1>
+            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
+            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
+              <ChevronDown className="h-10 w-10 mx-auto" />
+            </div>
           </AnimatedSection>
         </div>
       </div>
-    
+
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <div ref={contentRef} className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {sections.map((section, index) => (
           <div key={index} className="mb-24">
             {/* Main Section Content */}
             <AnimatedSection>
-              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 ${
-                index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
-              }`}>
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 ${index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
+                }`}>
                 <div className={index % 2 === 1 ? "lg:col-start-2" : ""}>
                   <img
                     src={section.image}
@@ -70,9 +82,8 @@ const Actividades = () => {
                     className="w-full h-auto rounded-lg shadow-md"
                   />
                 </div>
-                <div className={`flex flex-col justify-center ${
-                  index % 2 === 1 ? "lg:col-start-1" : ""
-                }`}>
+                <div className={`flex flex-col justify-center ${index % 2 === 1 ? "lg:col-start-1" : ""
+                  }`}>
                   <h2 className="text-4xl font-bold text-[#552673] mb-6 decoration-4">
                     {section.title}
                   </h2>
