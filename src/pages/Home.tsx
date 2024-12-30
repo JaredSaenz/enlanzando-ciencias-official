@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
+import NewsBar from '../components/NewsBar';
 
 const Home = () => {
   // Asegurarse de que el SDK de Facebook cargue correctamente
@@ -28,6 +29,9 @@ const Home = () => {
           </AnimatedSection>
         </div>
       </div>
+
+      {/* News Bar */}
+      <NewsBar />
 
       {/* Rest of the content */}
       <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -101,5 +105,4 @@ const Home = () => {
 };
 
 export default Home;
-
 
