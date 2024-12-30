@@ -18,9 +18,9 @@ const Actividades = () => {
       description: "Enlazando Ciencias se enorgullece de participar en el programa 'Hoy en tu Comunidad' de la UADY, llevando actividades de divulgación científica a comunidades. A través de dinámicas interactivas y educativas, buscamos despertar la curiosidad y fomentar el aprendizaje en niños, jóvenes y adultos. Nuestra labor refuerza el compromiso social de la universidad, conectando el conocimiento académico con las necesidades reales de la sociedad.",
       image: "/actividades_hetc.jpg",
       photos: [
-        { src: "/photo4.jpg", subtitle: "Foto 4" },
-        { src: "/photo5.jpg", subtitle: "Foto 5" },
-        { src: "/photo6.jpg", subtitle: "Foto 6" }
+        { src: "/actividades_SantaMariaChi.jpg", subtitle: "Santa María Chi" },
+        { src: "/actividades_Kinchil.jpg", subtitle: "Kichil" },
+        { src: "/actividades_Xaya,Tekax.jpg", subtitle: "Xaya, Tekax" }
       ]
     },
     {
@@ -38,10 +38,17 @@ const Actividades = () => {
   return (    
     <div className="bg-white min-h-screen">
       {/* Hero Section */}
-      <div className="relative bg-cover bg-center h-screen" style={{ backgroundImage: "url('/mesa_directiva_EC.jpg')" }}>
+      <div
+        className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
+        style={{
+          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+        }}
+      >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-6xl font-bold text-white text-center">Nuestras Actividades</h1>
+        <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
+            Actividades
+          </h1>
         </div>
       </div>
     
