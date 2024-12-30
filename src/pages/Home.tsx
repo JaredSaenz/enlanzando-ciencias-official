@@ -77,7 +77,7 @@ const Home = () => {
         <AnimatedSection>
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">Síguenos en Facebook</h2>
-            <div className="bg-white shadow-lg rounded-lg p-6 overflow-hidden">
+            <div className="bg-white shadow-lg rounded-lg p-6 overflow-hidden flex justify-center">
               <div
                 className="fb-page"
                 data-href="https://www.facebook.com/Enlazando.ciencias"

@@ -16,7 +16,7 @@ const Actividades = () => {
     {
       title: "Hoy en tu Comunidad",
       description: "Enlazando Ciencias se enorgullece de participar en el programa 'Hoy en tu Comunidad' de la UADY, llevando actividades de divulgación científica a comunidades. A través de dinámicas interactivas y educativas, buscamos despertar la curiosidad y fomentar el aprendizaje en niños, jóvenes y adultos. Nuestra labor refuerza el compromiso social de la universidad, conectando el conocimiento académico con las necesidades reales de la sociedad.",
-      image: "/path-to-hoy-image.jpg",
+      image: "/actividades_hetc.jpg",
       photos: [
         { src: "/photo4.jpg", subtitle: "Foto 4" },
         { src: "/photo5.jpg", subtitle: "Foto 5" },
@@ -35,51 +35,65 @@ const Actividades = () => {
     }
   ]
 
-  return (
+  return (    
     <div className="bg-white min-h-screen">
-      {/* Título con imagen de fondo */}
+      {/* Hero Section */}
       <div className="relative bg-cover bg-center h-screen" style={{ backgroundImage: "url('/mesa_directiva_EC.jpg')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 flex items-center justify-center h-full">
           <h1 className="text-6xl font-bold text-white text-center">Nuestras Actividades</h1>
         </div>
       </div>
-
-      {/* Secciones con texto e imagen */}
+    
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {sections.map((section, index) => (
-          <AnimatedSection key={index}>
-            <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-12 ${index % 2 === 1 ? "md:grid-cols-2-reverse" : ""}`}>
-              {/* Imagen */}
-              <div>
-                <img
-                  src={section.image}
-                  alt={section.title}
-                  className="w-full h-auto rounded-lg shadow-md"
-                />
-              </div>
-
-              {/* Texto */}
-              <div>
-                <h2 className="text-3xl font-semibold text-[#552673] mb-4">{section.title}</h2>
-                <p className="text-gray-700">{section.description}</p>
-              </div>
-            </div>
-
-            {/* Barra horizontal de fotos */}
-            <div className="flex gap-4 overflow-auto pb-4 w-full">
-              {section.photos.map((photo, photoIndex) => (
-                <div key={photoIndex} className="flex flex-col items-center">
+          <div key={index} className="mb-24">
+            {/* Main Section Content */}
+            <AnimatedSection>
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 ${
+                index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
+              }`}>
+                <div className={index % 2 === 1 ? "lg:col-start-2" : ""}>
                   <img
-                    src={photo.src}
-                    alt={`Photo ${photoIndex + 1}`}
-                    className="w-48 h-32 object-cover rounded-lg shadow-md"
+                    src={section.image}
+                    alt={section.title}
+                    className="w-full h-auto rounded-lg shadow-md"
                   />
-                  <p className="text-sm text-gray-600 mt-2">{photo.subtitle}</p>
                 </div>
-              ))}
-            </div>
-          </AnimatedSection>
+                <div className={`flex flex-col justify-center ${
+                  index % 2 === 1 ? "lg:col-start-1" : ""
+                }`}>
+                  <h2 className="text-4xl font-bold text-[#552673] mb-6 decoration-4">
+                    {section.title}
+                  </h2>
+                  <p className="text-gray-700 text-lg">
+                    {section.description}
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* Photos Grid */}
+            <AnimatedSection>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+                {section.photos.map((photo, photoIndex) => (
+                  <div key={photoIndex} className="flex flex-col items-center">
+                    <img
+                      src={photo.src}
+                      alt={photo.subtitle}
+                      className="w-full aspect-4/3 object-cover rounded-lg shadow-md mb-4"
+                    />
+                    <h3 className="text-2xl font-semibold text-[#552673] hover:underline">
+                      <a href="#" className="hover:text-[#935da3] transition-colors">
+                        {photo.subtitle}
+                      </a>
+                    </h3>
+                  </div>
+                ))}
+              </div>
+            </AnimatedSection>
+          </div>
         ))}
       </div>
     </div>
@@ -87,3 +101,4 @@ const Actividades = () => {
 }
 
 export default Actividades
+
