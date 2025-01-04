@@ -17,7 +17,7 @@ const pool = new Pool({
 const origin_url = `${originUrl}`;
 
 app.use(cors({
-    origin: origin_url
+  origin: origin_url
 })); // Permitir solicitudes desde otros orígenes
 app.use(express.json()); // Parsear solicitudes JSON
 
@@ -36,7 +36,15 @@ app.get('/api/hello', (req, res) => {
 
 // Nueva ruta para obtener las actividades (ahora POST)
 app.post('/api/actividades', async (req, res) => {
+  const { section } = req.body; // Obtenemos la sección desde el cuerpo de la solicitud
+  
   try {
+    // Aseguramos que la sección esté presente
+    if (!section) {
+      return res.status(400).json({ error: 'Sección no proporcionada' });
+    }
+
+    // Consultamos las actividades correspondientes a la sección especificada
     const query = `
       WITH ranked_activities AS (
           SELECT 
@@ -46,14 +54,16 @@ app.post('/api/actividades', async (req, res) => {
               fotos,
               ROW_NUMBER() OVER (PARTITION BY seccion ORDER BY created_at DESC) AS row_num
           FROM actividades
+          WHERE seccion = $1  -- Filtramos por la sección
       )
       SELECT id, seccion, datos, fotos 
       FROM ranked_activities 
-      WHERE row_num <= 3;
+      WHERE row_num <= 3;  -- Obtenemos las últimas 3 actividades
     `;
-    const result = await pool.query(query);
 
-    // Formatear los datos antes de enviarlos
+    const result = await pool.query(query, [section]); // Pasamos la sección como parámetro
+
+    // Formateamos los datos antes de enviarlos
     res.json(
       result.rows.map(row => ({
         id: row.id,
