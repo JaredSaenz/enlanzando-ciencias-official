@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import Home from './pages/Home.tsx'
@@ -14,7 +14,7 @@ import Contacto from './pages/Contacto.tsx'
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
@@ -32,7 +32,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </HashRouter>
   )
 }
 
