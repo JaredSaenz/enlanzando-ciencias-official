@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import { ChevronDown } from 'lucide-react';
 
+const backend_url = import.meta.env.VITE_BKEND_URL;
 const Actividades = () => {
   const [sections, setSections] = useState([]);
   const contentRef = useRef(null);
@@ -12,7 +13,7 @@ const Actividades = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('https://localhost:5000/api/actividades', {
+      const response = await fetch(`${backend_url}/api/actividades`, {
         method: 'POST', // Cambiar de GET a POST
         headers: {
           'Content-Type': 'application/json',
