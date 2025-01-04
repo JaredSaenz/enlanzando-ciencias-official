@@ -44,23 +44,31 @@ const Actividades = () => {
         }
 
         const data = await response.json();
+
+        // Agrupar los datos y filtrar la primera foto por título único
         const groupedData = data.reduce((acc, curr) => {
           const { seccion, datos, fotos } = curr;
           const { titulo_evento } = datos;
 
-          const fotosArray = Object.values(fotos).map((nombre_foto) => ({
-            src: `/actividades/${seccion}/${nombre_foto}.jpg`,
-            subtitle: titulo_evento,
-          }));
-
+          // Si la sección no existe aún, inicialízala
           if (!acc[seccion]) {
             acc[seccion] = {
               title: sectionsTitle[seccion],
               description: sectionDescription[seccion],
               image: `/actividades_${seccion}.jpg`,
-              photos: fotosArray,
+              photos: [],
             };
           }
+
+          // Agregar solo la primera foto de cada título único
+          if (!acc[seccion].photos.find((photo) => photo.subtitle === titulo_evento)) {
+            const firstPhoto = Object.values(fotos)[0];
+            acc[seccion].photos.push({
+              src: `/actividades/${seccion}/${firstPhoto}.jpg`,
+              subtitle: titulo_evento,
+            });
+          }
+
           return acc;
         }, {});
 
