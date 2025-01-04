@@ -24,6 +24,11 @@ app.use(express.json()); // Parsear solicitudes JSON
 // Servir los archivos estáticos del frontend construido por Vite
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
+// Capturar todas las demás rutas y devolver el index.html de React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+});
+
 // Ruta de ejemplo
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hola desde el backend!' });
@@ -61,11 +66,6 @@ app.post('/api/actividades', async (req, res) => {
     console.error(error);
     res.status(500).send('Error al obtener actividades');
   }
-});
-
-// Capturar todas las demás rutas y devolver el index.html de React
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
 
 // Iniciar el servidor
