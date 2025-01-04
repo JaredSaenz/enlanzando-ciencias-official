@@ -7,60 +7,36 @@ interface Item {
 }
 
 interface SectionListProps {
-  section: string; // Recibe la sección para consultar (talleres, hetc, conferencias)
-  backendUrl: string;
+  items: Item[];
 }
 
-const SectionList: React.FC<SectionListProps> = ({ section, backendUrl }) => {
-  const [items, setItems] = useState<Item[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+const SectionList: React.FC<SectionListProps> = ({ items }) => {
+  // Esta variable guarda las fotos organizadas para cada actividad
+  const [activityPhotos, setActivityPhotos] = useState<Item[]>([]);
 
-  // Consulta los eventos de la sección específica
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${backendUrl}/api/actividades`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ section }), // Enviamos la sección
+    // Este código asegura que solo agreguemos la primera foto de cada actividad
+    const photos = [];
+    items.forEach(item => {
+      // Verificamos si la foto para el título ya ha sido añadida
+      if (!photos.find(photo => photo.title === item.title)) {
+        // Si no ha sido añadida, obtenemos la primera foto asociada a la actividad
+        const firstPhoto = item.image;
+        photos.push({
+          title: item.title,
+          description: item.description,
+          image: firstPhoto, // Aquí estamos agregando la imagen asociada al título
         });
-
-        if (!response.ok) {
-          throw new Error('Error en la respuesta del servidor');
-        }
-
-        const data = await response.json();
-        const events = data
-          .filter((event: any) => event.seccion === section) // Filtramos por la sección
-          .map((event: any) => ({
-            title: event.datos.titulo_evento,
-            description: event.datos.descripcion_corta,
-            image: `/actividades/${section}/${event.fotos[0]}.jpg`, // Usamos la primera foto
-          }));
-
-        setItems(events);
-      } catch (err) {
-        setError('Hubo un error al obtener los eventos');
-      } finally {
-        setLoading(false);
       }
-    };
+    });
 
-    fetchData();
-  }, [section, backendUrl]); // Dependencia para recargar cuando cambia la sección
-
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+    // Actualizamos el estado con las fotos procesadas
+    setActivityPhotos(photos);
+  }, [items]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {items.map((item, index) => (
+      {activityPhotos.map((item, index) => (
         <div key={index} className="bg-white shadow-md rounded-lg p-4">
           <img
             src={item.image}
@@ -68,7 +44,9 @@ const SectionList: React.FC<SectionListProps> = ({ section, backendUrl }) => {
             className="w-full h-48 object-cover rounded-t-lg"
           />
           <div className="p-4">
-            <h3 className="text-2xl font-semibold text-[#552673] mb-2">{item.title}</h3>
+            <h3 className="text-2xl font-semibold text-[#552673] mb-2">
+              {item.title}
+            </h3>
             <p className="text-gray-700">{item.description}</p>
           </div>
         </div>
