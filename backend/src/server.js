@@ -68,42 +68,6 @@ app.post('/api/actividades', async (req, res) => {
   }
 });
 
-// Nueva ruta POST para obtener exclusivamente los talleres
-app.post('/api/talleres', async (req, res) => {
-  try {
-    const query = `
-      SELECT 
-        id,
-        seccion,
-        datos::json ->> 'titulo_evento' AS titulo_evento,
-        datos::json ->> 'descripcion_corta' AS descripcion_corta,
-        fotos::json ->> 'nombre_foto_1' AS nombre_foto_1
-      FROM actividades
-      WHERE seccion = 'talleres'
-      ORDER BY created_at DESC;
-    `;
-
-    const result = await pool.query(query);
-
-    // Formatear los datos antes de enviarlos
-    res.json(
-      result.rows.map(row => ({
-        id: row.id,
-        datos: {
-          titulo_evento: row.titulo_evento,
-          descripcion_corta: row.descripcion_corta,
-        },
-        fotos: {
-          nombre_foto_1: row.nombre_foto_1,
-        },
-      }))
-    );
-  } catch (error) {
-    console.error('Error al obtener talleres:', error);
-    res.status(500).send('Error al obtener talleres');
-  }
-});
-
 // Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
