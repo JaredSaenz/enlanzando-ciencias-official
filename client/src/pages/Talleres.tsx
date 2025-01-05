@@ -26,7 +26,7 @@ const Talleres = () => {
       <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-            Nuestras Actividades
+            Talleres
           </h1>
           <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
             <ChevronDown className="h-10 w-10 mx-auto" />
