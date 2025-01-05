@@ -36,7 +36,7 @@ const SectionList: React.FC<SectionListProps> = ({ section, backendUrl }) => {
           .map((event: any) => ({
             title: event.datos.titulo_evento,
             description: event.datos.descripcion_corta,
-            image: `/actividades/${section}/${event.values(fotos)[0]}.jpg`, // Usamos la primera foto
+            image: `/actividades/${section}/${event.fotos.nombre_foto_1}.jpg`, // Usamos la primera foto
           }));
 
         setItems(events);
