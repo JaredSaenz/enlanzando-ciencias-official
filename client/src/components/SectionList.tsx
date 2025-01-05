@@ -38,7 +38,7 @@ const SectionList: React.FC<SectionListProps> = ({ section, backendUrl }) => {
             description: event.datos.descripcion_corta,
             image: `/actividades/${section}/${event.fotos.nombre_foto_1}.jpg`, // Usamos la primera foto
           }));
-
+        
         setItems(events);
       } catch (err) {
         setError('Hubo un error al obtener los eventos');
