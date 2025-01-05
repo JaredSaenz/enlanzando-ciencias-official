@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
 const { dbUrl, originUrl, port } = require('./config.js');
+const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
 const PORT = port || 5000;
@@ -28,6 +29,8 @@ app.use(express.static(path.join(__dirname, '../../client/dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
+
+app.use('/api', eventRoutes);
 
 // Ruta de ejemplo
 app.get('/api/hello', (req, res) => {
