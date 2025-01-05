@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const { Pool } = require('pg');
 const { dbUrl, originUrl, port } = require('./config.js');
-const eventRoutes = require('./routes/eventRoutes');
+const eventRoutes = require('./routes/eventRoutes.js');
 
 const app = express();
 const PORT = port || 5000;
