@@ -15,7 +15,7 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/' });
 
 // Initialize Octokit with your GitHub token
-const octokit = new Octokit({ auth: config.gigitToken });
+const octokit = new Octokit({ auth: config.gitToken });
 
 router.post('/submit-event', upload.array('photo_files'), async (req, res) => {
   try {

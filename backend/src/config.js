@@ -13,7 +13,7 @@ const {
 
 export const EnvConfig = () => ({
   dbUrl,
-  gigitToken,
+  gitToken,
   originUrl,
   port
 });
