@@ -87,8 +87,7 @@ const EventSubmissionForm: React.FC = () => {
       });
 
       if (response.ok) {
-        alert('Evento enviado con éxito');
-        navigate('/');
+        console.log(response);
       } else {
         alert('Error al enviar el evento');
       }
