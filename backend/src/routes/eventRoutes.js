@@ -4,17 +4,18 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { Octokit } from '@octokit/rest';
+import { EnvConfig } from '../config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+const config = EnvConfig();
 const router = express.Router();
 
 // Configure multer for file uploads
 const upload = multer({ dest: 'uploads/' });
 
 // Initialize Octokit with your GitHub token
-const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const octokit = new Octokit({ auth: config.gigitToken });
 
 router.post('/submit-event', upload.array('photo_files'), async (req, res) => {
   try {
