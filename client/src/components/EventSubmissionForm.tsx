@@ -46,7 +46,6 @@ const EventSubmissionForm: React.FC = () => {
       setIsAuthenticated(true);
       setTimeRemaining(3600); // 1 hour in seconds
     } else {
-      console.log(realPassword)
       alert('Contraseña incorrecta');
     }
   };
