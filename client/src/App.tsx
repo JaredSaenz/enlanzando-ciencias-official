@@ -1,7 +1,10 @@
 import React from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom'
+
 import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
+import EventSubmissionForm from './components/EventSubmissionForm.tsx'
+
 import Home from './pages/Home.tsx'
 import QuienesSomos from './pages/QuienesSomos.tsx'
 import Actividades from './pages/Actividades.tsx'
@@ -11,7 +14,6 @@ import Conferencias from './pages/Conferencias.tsx'
 import Divulgacion from './pages/Divulgacion.tsx'
 import Unete from './pages/Unete.tsx'
 import Contacto from './pages/Contacto.tsx'
-import EventSubmissionForm from './components/EventSubmissionForm.tsx'
 
 function App() {
   return (

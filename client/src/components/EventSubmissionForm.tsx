@@ -12,7 +12,7 @@ interface PhotoData {
   [key: string]: string;
 }
 
-const realPassword = import.meta.env.ADMIN_PASSSWORD;
+const realPassword = import.meta.env.VITE_ADMIN_PASSSWORD;
 
 const EventSubmissionForm: React.FC = () => {
   const [password, setPassword] = useState('');
