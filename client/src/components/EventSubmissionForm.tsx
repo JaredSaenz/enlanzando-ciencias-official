@@ -12,6 +12,8 @@ interface PhotoData {
   [key: string]: string;
 }
 
+const realPassword = import.meta.env.ADMIN_PASSSWORD;
+
 const EventSubmissionForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -40,10 +42,11 @@ const EventSubmissionForm: React.FC = () => {
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Replace 'your_password_here' with the actual password
-    if (password === 'your_password_here') {
+    if (password === realPassword) {
       setIsAuthenticated(true);
       setTimeRemaining(3600); // 1 hour in seconds
     } else {
+      console.log(realPassword)
       alert('Contraseña incorrecta');
     }
   };

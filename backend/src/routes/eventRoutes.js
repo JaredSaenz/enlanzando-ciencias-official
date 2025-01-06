@@ -1,9 +1,14 @@
-const express = require('express');
+import express from 'express';
+import multer from 'multer';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { Octokit } from '@octokit/rest';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-const multer = require('multer');
-const { Octokit } = require('@octokit/rest');
-const fs = require('fs');
-const path = require('path');
 
 // Configure multer for file uploads
 const upload = multer({ dest: 'uploads/' });
@@ -47,5 +52,5 @@ router.post('/submit-event', upload.array('photo_files'), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
 

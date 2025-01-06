@@ -1,6 +1,7 @@
 {
     "name": "enlazando-ciencias-backend",
     "version": "1.0.0",
+    "type": "module",
     "description": "Backend for Enlazando Ciencias website",
     "main": "src/server.js",
     "scripts": {
@@ -8,6 +9,7 @@
         "dev": "nodemon src/server.js"
     },
     "dependencies": {
+        "@octokit/rest": "^21.0.2",
         "cors": "^2.8.5",
         "dotenv": "^16.4.7",
         "express": "^4.17.1",

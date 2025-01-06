@@ -11,6 +11,7 @@ import Conferencias from './pages/Conferencias.tsx'
 import Divulgacion from './pages/Divulgacion.tsx'
 import Unete from './pages/Unete.tsx'
 import Contacto from './pages/Contacto.tsx'
+import EventSubmissionForm from './components/EventSubmissionForm.tsx'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/divulgacion" element={<Divulgacion />} />
             <Route path="/unete" element={<Unete />} />
             <Route path="/contacto" element={<Contacto />} />
+            <Route path="/submit-event" element={<EventSubmissionForm />} />
           </Routes>
         </main>
         <Footer />

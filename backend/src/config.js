@@ -1,5 +1,6 @@
 // config.js
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+
 
 dotenv.config(); // Carga las variables del archivo .env
 
@@ -9,9 +10,8 @@ const {
   PORT: port = '5000'
 } = process.env;
 
-// Exporta un objeto de configuración directamente
-module.exports = {
+export const EnvConfig = () => ({
   dbUrl,
   originUrl,
   port
-};
+});

@@ -1,26 +1,31 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const { Pool } = require('pg');
-const { dbUrl, originUrl, port } = require('./config.js');
-const eventRoutes = require('./routes/eventRoutes.js');
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import pg from 'pg';
+import { fileURLToPath } from 'url';
+import { EnvConfig } from './config.js';
+import eventRoutes from './routes/eventRoutes.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const config = EnvConfig();
 const app = express();
-const PORT = port || 5000;
+const PORT = config.port || 5000;
 
 // Configuración de la conexión a PostgreSQL
-const pool = new Pool({
-  connectionString: dbUrl,
+const pool = new pg.Pool({
+  connectionString: config.dbUrl,
   ssl: { rejectUnauthorized: false }
 });
 
 // Middleware
-const origin_url = `${originUrl}`;
+const origin_url = `${config.originUrl}`;
 
 app.use(cors({
     origin: origin_url
 })); // Permitir solicitudes desde otros orígenes
 app.use(express.json()); // Parsear solicitudes JSON
+app.use('/api', eventRoutes);
 
 // Servir los archivos estáticos del frontend construido por Vite
 app.use(express.static(path.join(__dirname, '../../client/dist')));
@@ -29,8 +34,6 @@ app.use(express.static(path.join(__dirname, '../../client/dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 });
-
-app.use('/api', eventRoutes);
 
 // Ruta de ejemplo
 app.get('/api/hello', (req, res) => {
@@ -75,3 +78,4 @@ app.post('/api/actividades', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
