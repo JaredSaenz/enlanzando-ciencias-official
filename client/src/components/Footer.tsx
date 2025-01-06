@@ -1,5 +1,6 @@
 import React from 'react'
-import { Facebook, Twitter, Instagram, Mail } from 'lucide-react'
+import { Facebook, Twitter, Instagram, Mail, Calendar } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 
 const Footer = () => {
@@ -19,6 +20,10 @@ const Footer = () => {
             <span className="sr-only">Instagram</span>
             <Instagram className="h-6 w-6" />
           </a>
+          <Link to="/submit-event" className="text-gray-300 hover:text-white" title="Enviar Evento">
+            <span className="sr-only">Enviar Evento</span>
+            <Calendar className="h-6 w-6" />
+          </Link>
           <a href="mailto:info@enlazandociencias.com" className="text-gray-300 hover:text-white">
             <span className="sr-only">Email</span>
             <Mail className="h-6 w-6" />
@@ -33,4 +38,3 @@ const Footer = () => {
 }
 
 export default Footer
-
