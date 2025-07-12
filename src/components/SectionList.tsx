@@ -33,6 +33,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
         const headers = lines[0].split(";").map((header) => header.trim())
 
         const data: CsvItem[] = []
+        console.log(data)
 
         for (let i = 1; i < lines.length; i++) {
           const values = lines[i].split(";").map((value) => value.trim())
