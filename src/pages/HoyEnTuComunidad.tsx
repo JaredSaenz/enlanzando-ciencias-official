@@ -44,7 +44,7 @@ const HoyEnTuComunidad = () => {
               necesita.
             </p>
           </div>
-          <SectionList section="hect" />
+          <SectionList section="hetc" />
         </AnimatedSection>
       </div>
     </div>
