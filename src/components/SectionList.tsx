@@ -27,6 +27,15 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
   const [timeFilter, setTimeFilter] = useState<TimeFilter>("all")
   const [showFilters, setShowFilters] = useState<boolean>(false)
 
+  // Mapeo de secciones a sus versiones cortas
+  const sectionMap: Record<string, string> = {
+    talleres: "tall",
+    conferencias: "conf",
+    hect: "hetc",
+  }
+
+  const shortSection = sectionMap[section] || section
+
   useEffect(() => {
     const fetchCsvData = async () => {
       try {
@@ -63,6 +72,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
         const data: CsvItem[] = []
 
+        // Skip header line and process data lines
         for (let i = 1; i < lines.length; i++) {
           const line = lines[i].trim()
           if (!line) continue
@@ -296,36 +306,42 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredAndSortedItems.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
-            >
-              <img
-                src={`/actividades/${section}/${section}-${item.id}/${section}-${item.id}-1.jpg`}
-                alt={item.title}
-                className="w-full h-48 object-cover"
-                onError={(e) => {
-                  const target = e.currentTarget
-                  if (target.src.includes(`${section}-${item.id}`)) {
-                    target.src = `/actividades/actividades_${section}.jpg`
-                  } else {
-                    target.src = `/placeholder.svg?height=192&width=384`
-                  }
-                }}
-              />
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2">{item.title}</h3>
-                {item.date && item.date !== "" && (
-                  <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
-                    <Calendar className="h-3 w-3" />
-                    {formatDate(item.date)}
-                  </p>
-                )}
-                <p className="text-gray-700 line-clamp-3">{item.short_desc}</p>
+          {filteredAndSortedItems.map((item) => {
+            const imageBasePath = `/actividades/${section}`
+
+            return (
+              <div
+                key={item.id}
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+              >
+                <img
+                  src={`${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`}
+                  alt={item.title}
+                  className="w-full h-48 object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget
+                    // Primera imagen de respaldo: imagen general de la sección
+                    if (target.src.includes(`${shortSection}-${item.id}`)) {
+                      target.src = `${imageBasePath}/actividades_${section}.jpg`
+                    } else if (target.src.includes(`actividades_${section}`)) {
+                      // Segunda imagen de respaldo: placeholder
+                      target.src = `/placeholder.svg?height=192&width=384`
+                    }
+                  }}
+                />
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2">{item.title}</h3>
+                  {item.date && item.date !== "" && (
+                    <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
+                      <Calendar className="h-3 w-3" />
+                      {formatDate(item.date)}
+                    </p>
+                  )}
+                  <p className="text-gray-700 line-clamp-3">{item.short_desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>
