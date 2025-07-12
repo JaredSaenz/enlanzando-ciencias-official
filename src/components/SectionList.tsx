@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useEffect, useState } from "react"
 
@@ -22,7 +20,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
   useEffect(() => {
     const fetchCsvData = async () => {
       try {
-        const response = await fetch(`/registros/${section}.csv`)
+        const response = await fetch(`../registros/${section}.csv`)
 
         if (!response.ok) {
           throw new Error("Error al cargar el archivo CSV")
