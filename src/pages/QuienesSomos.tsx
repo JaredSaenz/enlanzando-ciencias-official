@@ -118,7 +118,7 @@ const QuienesSomos = () => {
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">Video destacado</h2>
             <div className="relative" style={{ paddingTop: '56.25%' }}>
               <iframe
-                src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/share/v/16nfe7UgRH/&show_text=false&width=500"
+                src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/Enlazando.ciencias/videos/637133352039637/&show_text=false&width=500"
                 width="500"
                 height="281"
                 style={{ border: 'none', overflow: 'hidden', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
