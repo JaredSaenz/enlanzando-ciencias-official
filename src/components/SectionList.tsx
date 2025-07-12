@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useCallback } from "react"
 import { Calendar, Filter, SortAsc, SortDesc } from "lucide-react"
 
 interface CsvItem {
@@ -36,6 +36,46 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
   const shortSection = sectionMap[section] || section
 
+  // Parse different date formats
+  const parseDate = useCallback((dateString: string): Date | null => {
+    if (!dateString) return null
+
+    // Try different date formats
+    const formats = [
+      /^\d{4}-\d{2}-\d{2}$/, // YYYY-MM-DD
+      /^\d{2}\/\d{2}\/\d{4}$/, // DD/MM/YYYY
+      /^\d{2}-\d{2}-\d{4}$/, // DD-MM-YYYY
+    ]
+
+    for (const format of formats) {
+      if (format.test(dateString)) {
+        let date: Date
+
+        if (dateString.includes("-") && dateString.length === 10 && dateString.indexOf("-") === 4) {
+          // YYYY-MM-DD format
+          date = new Date(dateString)
+        } else if (dateString.includes("/")) {
+          // DD/MM/YYYY format
+          const [day, month, year] = dateString.split("/")
+          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
+        } else if (dateString.includes("-")) {
+          // DD-MM-YYYY format
+          const [day, month, year] = dateString.split("-")
+          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
+        } else {
+          continue
+        }
+
+        if (!isNaN(date.getTime())) {
+          return date
+        }
+      }
+    }
+
+    return null
+  }, [])
+
+  // Solo se ejecuta cuando cambia la sección, NO cuando cambian los filtros
   useEffect(() => {
     const fetchCsvData = async () => {
       try {
@@ -99,6 +139,17 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           }
         }
 
+        // Ordenar inicialmente por fecha (más recientes primero) al cargar los datos
+        data.sort((a, b) => {
+          // Items without dates go to the end
+          if (!a.parsedDate && !b.parsedDate) return 0
+          if (!a.parsedDate) return 1
+          if (!b.parsedDate) return -1
+
+          // Más recientes primero (orden descendente)
+          return b.parsedDate.getTime() - a.parsedDate.getTime()
+        })
+
         setItems(data)
       } catch (err) {
         console.error("Error loading CSV:", err)
@@ -111,103 +162,90 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
     if (section) {
       fetchCsvData()
+      // Reset filters when section changes
+      setSortOrder("newest")
+      setTimeFilter("all")
     }
-  }, [section])
+  }, [section, parseDate]) // Solo depende de section y parseDate
 
-  // Parse different date formats
-  const parseDate = (dateString: string): Date | null => {
-    if (!dateString) return null
-
-    // Try different date formats
-    const formats = [
-      /^\d{4}-\d{2}-\d{2}$/, // YYYY-MM-DD
-      /^\d{2}\/\d{2}\/\d{4}$/, // DD/MM/YYYY
-      /^\d{2}-\d{2}-\d{4}$/, // DD-MM-YYYY
-    ]
-
-    for (const format of formats) {
-      if (format.test(dateString)) {
-        let date: Date
-
-        if (dateString.includes("-") && dateString.length === 10 && dateString.indexOf("-") === 4) {
-          // YYYY-MM-DD format
-          date = new Date(dateString)
-        } else if (dateString.includes("/")) {
-          // DD/MM/YYYY format
-          const [day, month, year] = dateString.split("/")
-          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
-        } else if (dateString.includes("-")) {
-          // DD-MM-YYYY format
-          const [day, month, year] = dateString.split("-")
-          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
-        } else {
-          continue
-        }
-
-        if (!isNaN(date.getTime())) {
-          return date
-        }
-      }
-    }
-
-    return null
-  }
-
-  // Filter and sort items
+  // Filter and sort items - se ejecuta solo cuando cambian los filtros o items
   const filteredAndSortedItems = useMemo(() => {
+    if (items.length === 0) return []
+
     let filtered = [...items]
 
     // Apply time filter
     if (timeFilter !== "all") {
       const now = new Date()
-      const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay()))
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-      const startOf3MonthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1)
-      const startOfYear = new Date(now.getFullYear(), 0, 1)
+      let filterDate: Date
+
+      switch (timeFilter) {
+        case "thisWeek":
+          filterDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay())
+          break
+        case "thisMonth":
+          filterDate = new Date(now.getFullYear(), now.getMonth(), 1)
+          break
+        case "last3Months":
+          filterDate = new Date(now.getFullYear(), now.getMonth() - 3, 1)
+          break
+        case "thisYear":
+          filterDate = new Date(now.getFullYear(), 0, 1)
+          break
+        default:
+          filterDate = new Date(0) // Very old date
+      }
 
       filtered = filtered.filter((item) => {
         if (!item.parsedDate) return false
-
-        switch (timeFilter) {
-          case "thisWeek":
-            return item.parsedDate >= startOfWeek
-          case "thisMonth":
-            return item.parsedDate >= startOfMonth
-          case "last3Months":
-            return item.parsedDate >= startOf3MonthsAgo
-          case "thisYear":
-            return item.parsedDate >= startOfYear
-          default:
-            return true
-        }
+        return item.parsedDate >= filterDate
       })
     }
 
-    // Apply sorting
-    filtered.sort((a, b) => {
-      // Items without dates go to the end
-      if (!a.parsedDate && !b.parsedDate) return 0
-      if (!a.parsedDate) return 1
-      if (!b.parsedDate) return -1
+    // Apply sorting only if different from initial sort
+    if (sortOrder === "oldest") {
+      filtered.sort((a, b) => {
+        // Items without dates go to the end
+        if (!a.parsedDate && !b.parsedDate) return 0
+        if (!a.parsedDate) return 1
+        if (!b.parsedDate) return -1
 
-      const comparison = a.parsedDate.getTime() - b.parsedDate.getTime()
-      return sortOrder === "newest" ? -comparison : comparison
-    })
+        // Más antiguos primero (orden ascendente)
+        return a.parsedDate.getTime() - b.parsedDate.getTime()
+      })
+    }
+    // Si sortOrder es "newest", mantenemos el orden inicial (ya está ordenado)
 
     return filtered
   }, [items, sortOrder, timeFilter])
 
-  const formatDate = (dateString: string): string => {
-    if (!dateString) return ""
-    const date = parseDate(dateString)
-    if (!date) return dateString
+  const formatDate = useCallback(
+    (dateString: string): string => {
+      if (!dateString) return ""
+      const date = parseDate(dateString)
+      if (!date) return dateString
 
-    return date.toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-  }
+      return date.toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    },
+    [parseDate],
+  )
+
+  // Handlers para evitar re-renders innecesarios
+  const handleSortChange = useCallback((newSort: SortOrder) => {
+    setSortOrder(newSort)
+  }, [])
+
+  const handleTimeFilterChange = useCallback((newFilter: TimeFilter) => {
+    setTimeFilter(newFilter)
+  }, [])
+
+  const handleToggleFilters = useCallback(() => {
+    setShowFilters((prev) => !prev)
+  }, [])
 
   if (loading) {
     return (
@@ -241,7 +279,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
             <Filter className="h-5 w-5 text-[#552673]" />
             <span className="font-medium text-[#552673]">Filtros</span>
             <button
-              onClick={() => setShowFilters(!showFilters)}
+              onClick={handleToggleFilters}
               className="text-sm text-gray-500 hover:text-[#552673] transition-colors sm:hidden"
             >
               {showFilters ? "Ocultar" : "Mostrar"}
@@ -254,7 +292,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               <Calendar className="h-4 w-4 text-gray-500" />
               <select
                 value={timeFilter}
-                onChange={(e) => setTimeFilter(e.target.value as TimeFilter)}
+                onChange={(e) => handleTimeFilterChange(e.target.value as TimeFilter)}
                 className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent"
               >
                 <option value="all">Todas las fechas</option>
@@ -274,7 +312,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               )}
               <select
                 value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value as SortOrder)}
+                onChange={(e) => handleSortChange(e.target.value as SortOrder)}
                 className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent"
               >
                 <option value="newest">Más recientes primero</option>
