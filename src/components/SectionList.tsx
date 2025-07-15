@@ -3,6 +3,7 @@
 import type React from "react"
 import { useEffect, useState, useMemo, useCallback } from "react"
 import { Calendar, Filter, SortAsc, SortDesc } from "lucide-react"
+import { Link } from "react-router-dom" // Importar Link
 
 interface CsvItem {
   id: string
@@ -127,7 +128,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               short_desc: values[3] || "Sin descripción",
             }
 
-            // Parse date for sorting and filtering
+            // Parse date for filtering (still needed for time filters)
             if (item.date) {
               const parsedDate = parseDate(item.date)
               if (parsedDate) {
@@ -139,15 +140,9 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           }
         }
 
-        // Ordenar inicialmente por fecha (más recientes primero) al cargar los datos
+        // Ordenar inicialmente por ID (más recientes = ID más alto primero) al cargar los datos
         data.sort((a, b) => {
-          // Items without dates go to the end
-          if (!a.parsedDate && !b.parsedDate) return 0
-          if (!a.parsedDate) return 1
-          if (!b.parsedDate) return -1
-
-          // Más recientes primero (orden descendente)
-          return b.parsedDate.getTime() - a.parsedDate.getTime()
+          return Number.parseInt(b.id) - Number.parseInt(a.id)
         })
 
         setItems(data)
@@ -163,7 +158,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
     if (section) {
       fetchCsvData()
       // Reset filters when section changes
-      setSortOrder("newest")
+      setSortOrder("newest") // Default to newest (highest ID)
       setTimeFilter("all")
     }
   }, [section, parseDate]) // Solo depende de section y parseDate
@@ -174,7 +169,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
     let filtered = [...items]
 
-    // Apply time filter
+    // Apply time filter (still uses parsedDate)
     if (timeFilter !== "all") {
       const now = new Date()
       let filterDate: Date
@@ -202,19 +197,18 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
       })
     }
 
-    // Apply sorting only if different from initial sort
+    // Apply sorting based on ID
     if (sortOrder === "oldest") {
       filtered.sort((a, b) => {
-        // Items without dates go to the end
-        if (!a.parsedDate && !b.parsedDate) return 0
-        if (!a.parsedDate) return 1
-        if (!b.parsedDate) return -1
-
-        // Más antiguos primero (orden ascendente)
-        return a.parsedDate.getTime() - b.parsedDate.getTime()
+        // Más antiguos primero (orden ascendente por ID)
+        return Number.parseInt(a.id) - Number.parseInt(b.id)
+      })
+    } else {
+      // "newest" (orden descendente por ID) - ya está ordenado así inicialmente, pero lo reconfirmamos
+      filtered.sort((a, b) => {
+        return Number.parseInt(b.id) - Number.parseInt(a.id)
       })
     }
-    // Si sortOrder es "newest", mantenemos el orden inicial (ya está ordenado)
 
     return filtered
   }, [items, sortOrder, timeFilter])
@@ -346,37 +340,45 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredAndSortedItems.map((item) => {
             const imageBasePath = `/actividades/${section}`
+            // Construir la ruta de la página individual
+            const pagePath = `/actividades/${section}/${item.id}`
 
             return (
               <div
                 key={item.id}
                 className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <img
-                  src={`${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
-                  onError={(e) => {
-                    const target = e.currentTarget
-                    // Primera imagen de respaldo: imagen general de la sección
-                    if (target.src.includes(`${shortSection}-${item.id}`)) {
-                      target.src = `${imageBasePath}/actividades_${section}.jpg`
-                    } else if (target.src.includes(`actividades_${section}`)) {
-                      // Segunda imagen de respaldo: placeholder
-                      target.src = `/placeholder.svg?height=192&width=384`
-                    }
-                  }}
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2">{item.title}</h3>
-                  {item.date && item.date !== "" && (
-                    <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      {formatDate(item.date)}
-                    </p>
-                  )}
-                  <p className="text-gray-700 line-clamp-3">{item.short_desc}</p>
-                </div>
+                <Link to={pagePath} className="block">
+                  {" "}
+                  {/* Envolver toda la tarjeta con Link */}
+                  <img
+                    src={`${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`}
+                    alt={item.title}
+                    className="w-full h-48 object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget
+                      // Primera imagen de respaldo: imagen general de la sección
+                      if (target.src.includes(`${shortSection}-${item.id}`)) {
+                        target.src = `${imageBasePath}/actividades_${section}.jpg`
+                      } else if (target.src.includes(`actividades_${section}`)) {
+                        // Segunda imagen de respaldo: placeholder
+                        target.src = `/placeholder.svg?height=192&width=384`
+                      }
+                    }}
+                  />
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2 hover:underline">
+                      {item.title}
+                    </h3>
+                    {item.date && item.date !== "" && (
+                      <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
+                        <Calendar className="h-3 w-3" />
+                        {formatDate(item.date)}
+                      </p>
+                    )}
+                    <p className="text-gray-700 line-clamp-3">{item.short_desc}</p>
+                  </div>
+                </Link>
               </div>
             )
           })}

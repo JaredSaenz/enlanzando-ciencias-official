@@ -1,7 +1,8 @@
 import { useRef } from "react"
-import AnimatedSection from "../components/AnimatedSection"
+import AnimatedSection from "../../components/AnimatedSection"
 import { ChevronDown } from "lucide-react"
-import { TextOnly, TextWithImage, FullWidthImage, ThreeImages } from "../components/PageComponents"
+import { TextOnly, TextWithImage, FullWidthImage, ThreeImages } from "../../components/PageComponents"
+
 
 const SantaMariaChi = () => {
   const contentRef = useRef<HTMLDivElement>(null)
@@ -12,7 +13,7 @@ const SantaMariaChi = () => {
     }
   }
 
-  const section = "hect" // Corresponde a la sección 'Hoy en tu Comunidad'
+  const section = "hetc" // Corresponde a la sección 'Hoy en tu Comunidad'
   const id = "1" // ID de la actividad 'Visita a Santa María Chi' en hect.csv
 
   return (

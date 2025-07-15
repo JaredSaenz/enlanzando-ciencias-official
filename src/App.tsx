@@ -12,6 +12,7 @@ import Divulgacion from "./pages/Divulgacion.tsx"
 import Unete from "./pages/Unete.tsx"
 import Contacto from "./pages/Contacto.tsx"
 import VisitaSantaMariaChi from "./pages/hetcPages/1_SantaMariaChi.tsx"
+import NotFound from "./pages/NotFound.tsx" 
 
 function App() {
   return (
@@ -24,12 +25,19 @@ function App() {
             <Route path="/quienes-somos" element={<QuienesSomos />} />
             <Route path="/actividades" element={<Actividades />} />
             <Route path="/actividades/talleres" element={<Talleres />} />
-            <Route path="/actividades/hoy-en-tu-comunidad" element={<HoyEnTuComunidad />} />
-            <Route path="/actividades/hoy-en-tu-comunidad/1" element={<VisitaSantaMariaChi />} />
+            <Route path="/actividades/hetc" element={<HoyEnTuComunidad />} />
+            <Route path="/actividades/hetc/1" element={<VisitaSantaMariaChi />} />
             <Route path="/actividades/conferencias" element={<Conferencias />} />
             <Route path="/divulgacion" element={<Divulgacion />} />
             <Route path="/unete" element={<Unete />} />
             <Route path="/contacto" element={<Contacto />} />
+            
+
+
+
+
+            
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
