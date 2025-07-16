@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
-import AnimatedSection from '../components/AnimatedSection';
-import { ChevronDown } from 'lucide-react';
+"use client"
 
+import { useRef } from "react"
+import AnimatedSection from "../components/AnimatedSection"
+import { ChevronDown } from "lucide-react"
 
 const QuienesSomos = () => {
   // Referencia para el contenido hacia donde nos desplazaremos
@@ -9,9 +10,8 @@ const QuienesSomos = () => {
 
   // Función para desplazar la página hacia el contenido
   const scrollToContent = () => {
-    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
+    contentRef.current?.scrollIntoView({ behavior: "smooth" })
   }
-
   return (
     <div className="bg-white min-h-screen">
       {/* Sección Hero con imagen de grupo */}
@@ -24,9 +24,7 @@ const QuienesSomos = () => {
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-              ¿Quiénes Somos?
-            </h1>
+            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">¿Quiénes Somos?</h1>
             {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
             <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
               <ChevronDown className="h-10 w-10 mx-auto" />
@@ -43,10 +41,10 @@ const QuienesSomos = () => {
             <div>
               <h2 className="text-3xl font-bold text-[#552673] mb-6">¿Quiénes somos?</h2>
               <p className="text-gray-700 mb-6">
-                Somos una asociación estudiantil comprometida con la divulgación científica. Nuestro propósito es
+                Somos una agrupación estudiantil comprometida con la divulgación científica. Nuestro propósito es
                 acercar el conocimiento científico a la sociedad de manera accesible y comprensible. A través de
-                talleres, ferias de ciencia, conferencias y diversas actividades, buscamos inspirar a personas de
-                todas las edades a explorar, aprender y apasionarse por la ciencia.
+                talleres, ferias de ciencia, conferencias y diversas actividades, buscamos inspirar a personas de todas
+                las edades a explorar, aprender y apasionarse por la ciencia.
               </p>
               <p className="text-gray-700">
                 Estamos convencidos de que la ciencia debe ser compartida y comprendida por todos. Por ello, trabajamos
@@ -93,13 +91,26 @@ const QuienesSomos = () => {
             <div>
               <h2 className="text-3xl font-bold text-[#552673] mb-6">¿Qué hacemos?</h2>
               <p className="text-gray-700 mb-6">
-                En nuestra agrupación, realizamos actividades y programas enfocados en la comunicación científica de manera práctica e interactiva. Algunas de nuestras principales iniciativas son:
+                En nuestra agrupación, realizamos actividades y programas enfocados en la comunicación científica de
+                manera práctica e interactiva. Algunas de nuestras principales iniciativas son:
               </p>
               <ul className="list-disc list-inside text-gray-700 mb-6">
-                <li><strong>Talleres educativos:</strong> Espacios donde los participantes aprenden a través de experiencias prácticas, fomentando la creatividad y el aprendizaje basado en la experimentación.</li>
-                <li><strong>Ferias de experimentos:</strong> Eventos donde compartimos proyectos, descubrimientos y actividades diseñadas para sorprender y despertar la curiosidad de niños, jóvenes y adultos.</li>
-                <li><strong>Conferencias y charlas:</strong> Ponencias con expertos que abordan temas actuales y relevantes, mostrando la importancia de la ciencia en el día a día.</li>
-                <li><strong>Actividades comunitarias:</strong> Realizamos actividades abiertas en parques y espacios públicos para llevar la ciencia a quienes más lo necesitan.</li>
+                <li>
+                  <strong>Talleres educativos:</strong> Espacios donde los participantes aprenden a través de
+                  experiencias prácticas, fomentando la creatividad y el aprendizaje basado en la experimentación.
+                </li>
+                <li>
+                  <strong>Ferias de experimentos:</strong> Eventos donde compartimos proyectos, descubrimientos y
+                  actividades diseñadas para sorprender y despertar la curiosidad de niños, jóvenes y adultos.
+                </li>
+                <li>
+                  <strong>Conferencias y charlas:</strong> Ponencias con expertos que abordan temas actuales y
+                  relevantes, mostrando la importancia de la ciencia en el día a día.
+                </li>
+                <li>
+                  <strong>Actividades comunitarias:</strong> Realizamos actividades abiertas en parques y espacios
+                  públicos para llevar la ciencia a quienes más lo necesitan.
+                </li>
               </ul>
             </div>
             <div>
@@ -112,27 +123,29 @@ const QuienesSomos = () => {
           </div>
         </AnimatedSection>
 
-        {/* Video embebido de Facebook */}
+        {/* Video embebido local */}
         <AnimatedSection>
           <div className="mt-16">
             <h2 className="text-3xl font-bold text-[#935da3] mb-6">Video destacado</h2>
-            <div className="relative" style={{ paddingTop: '56.25%' }}>
-              <iframe
-                src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/Enlazando.ciencias/videos/quienes-somos/637133352039637/&show_text=false&width=500"
-                width="500"
-                height="281"
-                style={{ border: 'none', overflow: 'hidden', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                scrolling="no"
-                frameBorder="0"
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-              </iframe>
+            <div className="relative w-full" style={{ paddingTop: "56.25%" }}>
+              {" "}
+              {/* 16:9 Aspect Ratio */}
+              <video
+                src="/quienes_somos.mp4"
+                controls
+                loop
+                muted
+                preload="metadata"
+                className="absolute top-0 left-0 w-full h-full object-cover rounded-lg shadow-md"
+              >
+                Tu navegador no soporta el elemento de video.
+              </video>
             </div>
           </div>
         </AnimatedSection>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuienesSomos;
+export default QuienesSomos
