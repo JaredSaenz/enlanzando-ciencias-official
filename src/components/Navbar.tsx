@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+"use client"
+
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { Menu, X } from "lucide-react"
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // Para el menú móvil
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Para el menú desplegable
+  const [isOpen, setIsOpen] = useState(false) // Para el menú móvil
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false) // Para el menú desplegable
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
     <nav className="bg-gradient-to-r from-white via-[#552673] via-16.67% to-[#552673] text-white relative z-50">
@@ -19,10 +21,16 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <Link to="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+              <Link
+                to="/"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
                 Inicio
               </Link>
-              <Link to="/quienes-somos" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+              <Link
+                to="/quienes-somos"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
                 ¿Quiénes somos?
               </Link>
 
@@ -40,9 +48,7 @@ const Navbar = () => {
                 </Link>
 
                 {isDropdownOpen && (
-                  <div
-                    className="absolute left-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-50"
-                  >
+                  <div className="absolute left-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg z-50">
                     <Link
                       to="/actividades/talleres"
                       className="block px-4 py-2 text-sm hover:bg-[#935da3] hover:text-white"
@@ -50,7 +56,7 @@ const Navbar = () => {
                       Talleres
                     </Link>
                     <Link
-                      to="/actividades/hoy-en-tu-comunidad"
+                      to="/actividades/hetc"
                       className="block px-4 py-2 text-sm hover:bg-[#935da3] hover:text-white"
                     >
                       Hoy en tu comunidad
@@ -65,13 +71,29 @@ const Navbar = () => {
                 )}
               </div>
 
-              <Link to="/divulgacion" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+              <Link
+                to="/periodico"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
+                Periódico
+              </Link>
+
+              <Link
+                to="/divulgacion"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
                 Divulgación
               </Link>
-              <Link to="/unete" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+              <Link
+                to="/unete"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
                 ¿Quieres unirte?
               </Link>
-              <Link to="/contacto" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+              <Link
+                to="/contacto"
+                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              >
                 Contacto
               </Link>
             </div>
@@ -90,29 +112,53 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               Inicio
             </Link>
-            <Link to="/quienes-somos" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/quienes-somos"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               ¿Quiénes somos?
             </Link>
-            <Link to="/actividades" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/actividades"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               Actividades
             </Link>
-            <Link to="/divulgacion" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/periodico"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
+              Periódico
+            </Link>
+            <Link
+              to="/divulgacion"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               Divulgación
             </Link>
-            <Link to="/unete" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/unete"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               ¿Quieres unirte?
             </Link>
-            <Link to="/contacto" className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]">
+            <Link
+              to="/contacto"
+              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+            >
               Contacto
             </Link>
           </div>
         </div>
       )}
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

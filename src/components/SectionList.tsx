@@ -33,6 +33,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
     talleres: "tall",
     conferencias: "conf",
     hect: "hetc",
+    periodico: "news"
   }
 
   const shortSection = sectionMap[section] || section

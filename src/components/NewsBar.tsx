@@ -27,6 +27,7 @@ const NewsBar: React.FC = () => {
     talleres: "tall",
     conferencias: "conf",
     hect: "hetc",
+    periodico: "news"
   }
 
   // Función de parseo de fechas (copiada de SectionList para consistencia)
