@@ -45,7 +45,7 @@ const BookView: React.FC<BookViewProps> = ({ images }) => {
   const currentImage = images[currentPage]
 
   return (
-    <div className="relative w-full h-[calc(100vh-10rem)] flex items-center justify-center bg-gray-200 overflow-hidden rounded-lg shadow-xl">
+    <div className="relative w-full h-[calc(200vh-10rem)] flex items-center justify-center bg-gray-200 overflow-hidden rounded-lg shadow-xl">
       <AnimatePresence initial={false} mode="wait">
         <motion.img
           key={currentPage}

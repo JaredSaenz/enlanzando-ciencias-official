@@ -30,7 +30,7 @@ function App() {
             <Route path="/actividades/hetc" element={<HoyEnTuComunidad />} />
             <Route path="/actividades/hetc/1" element={<VisitaSantaMariaChi />} />
             <Route path="/periodico" element={<Periodico />} />
-            <Route path="/actividades/periodico/:id" element={<NewspaperDetail />} />
+            <Route path="/actividades/periodico/:id_section" element={<NewspaperDetail />} />
             <Route path="/actividades/conferencias" element={<Conferencias />} />
             <Route path="/divulgacion" element={<Divulgacion />} />
             <Route path="/unete" element={<Unete />} />

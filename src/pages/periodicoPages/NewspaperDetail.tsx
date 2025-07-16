@@ -15,6 +15,7 @@ interface NewspaperItem {
   date: string
   title: string
   short_desc: string
+  pages: string // Añadido este campo que faltaba
 }
 
 const NewspaperDetail = () => {
@@ -26,6 +27,7 @@ const NewspaperDetail = () => {
   const [newspaperData, setNewspaperData] = useState<NewspaperItem | null>(null)
   const [loadingData, setLoadingData] = useState(true)
   const [error, setError] = useState<string>("")
+  const [pagesNumber, setPagesNumber] = useState<number>(0) // Mover pagesNumber al estado
 
   const scrollToContent = () => {
     if (contentRef.current) {
@@ -39,7 +41,7 @@ const NewspaperDetail = () => {
       setLoadingData(true)
       setError("")
       try {
-        const response = await fetch("/registros/periodicos.csv", {
+        const response = await fetch("/registros/periodico.csv", {
           method: "GET",
           headers: { "Content-Type": "text/plain" },
         })
@@ -53,8 +55,11 @@ const NewspaperDetail = () => {
           complete: (results) => {
             const data: NewspaperItem[] = results.data as NewspaperItem[]
             const foundItem = data.find((item) => item.id === id_section)
+            
             if (foundItem) {
               setNewspaperData(foundItem)
+              const pages = parseInt(foundItem.pages)
+              setPagesNumber(isNaN(pages) ? 0 : pages) // Manejar caso NaN
             } else {
               setError("Edición de periódico no encontrada.")
             }
@@ -80,22 +85,29 @@ const NewspaperDetail = () => {
   // Function to generate image paths
   useEffect(() => {
     const fetchImagePaths = async () => {
-      if (!id_section) return
+      if (!id_section || pagesNumber <= 0) {
+        setNewspaperImages([])
+        setLoadingImages(false)
+        return
+      }
 
       setLoadingImages(true)
-      const imagePaths: string[] = []
-      // Assuming images are named news-{id_section}-{page_number}.png
-      // You might need to adjust the max number or fetch a manifest if dynamic
-      const maxImageCount = 15 // Adjust this based on your actual number of pages for a given newspaper
-      for (let i = 1; i <= maxImageCount; i++) {
-        imagePaths.push(`/actividades/periodico/news-${id_section}/news-${id_section}-${i}.png`)
+      try {
+        const imagePaths: string[] = []
+        for (let i = 1; i <= pagesNumber; i++) {
+          imagePaths.push(`/actividades/periodico/news-${id_section}/news-${id_section}-${i}.jpg`)
+        }
+        setNewspaperImages(imagePaths)
+      } catch (err) {
+        console.error("Error generating image paths:", err)
+        setError("Error al cargar las imágenes del periódico.")
+      } finally {
+        setLoadingImages(false)
       }
-      setNewspaperImages(imagePaths)
-      setLoadingImages(false)
     }
 
     fetchImagePaths()
-  }, [id_section])
+  }, [id_section, pagesNumber])
 
   const handleDownloadPdf = useCallback(() => {
     if (!id_section) return
