@@ -11,7 +11,7 @@ import Conferencias from "./pages/Conferencias.tsx"
 import Divulgacion from "./pages/Divulgacion.tsx"
 import Unete from "./pages/Unete.tsx"
 import Contacto from "./pages/Contacto.tsx"
-import VisitaSantaMariaChi from "./pages/hetcPages/1_SantaMariaChi.tsx"
+import ActivityDetail from "./pages/ActivityDetail.tsx"
 import Periodico from "./pages/Periodico.tsx"
 import NewspaperDetail from './pages/periodicoPages/NewspaperDetail.tsx'
 import NotFound from "./pages/NotFound.tsx" 
@@ -28,13 +28,16 @@ function App() {
             <Route path="/actividades" element={<Actividades />} />
             <Route path="/actividades/talleres" element={<Talleres />} />
             <Route path="/actividades/hetc" element={<HoyEnTuComunidad />} />
-            <Route path="/actividades/hetc/1" element={<VisitaSantaMariaChi />} />
             <Route path="/periodico" element={<Periodico />} />
-            <Route path="/actividades/periodico/:id_section" element={<NewspaperDetail />} />
+            
             <Route path="/actividades/conferencias" element={<Conferencias />} />
             <Route path="/divulgacion" element={<Divulgacion />} />
             <Route path="/unete" element={<Unete />} />
-            <Route path="/contacto" element={<Contacto />} />            
+            <Route path="/contacto" element={<Contacto />} /> 
+            
+            {/* Nueva ruta dinámica para actividades */}
+            <Route path="/actividades/periodico/:id_section" element={<NewspaperDetail />} />
+            <Route path="/actividades/:group/:id_page" element={<ActivityDetail />} />           
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

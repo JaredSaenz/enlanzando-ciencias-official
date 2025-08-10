@@ -95,7 +95,7 @@ const NewspaperDetail = () => {
       try {
         const imagePaths: string[] = []
         for (let i = 1; i <= pagesNumber; i++) {
-          imagePaths.push(`/actividades/periodico/news-${id_section}/news-${id_section}-${i}.jpg`)
+          imagePaths.push(`/actividades/periodico/news-${id_section}/news-${id_section}-${i}.webp`)
         }
         setNewspaperImages(imagePaths)
       } catch (err) {
