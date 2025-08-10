@@ -1,11 +1,13 @@
 "use client"
 
 import { useParams } from "react-router-dom"
-import { lazy, Suspense } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import Talleres from "./Talleres"
 import HoyEnTuComunidad from "./HoyEnTuComunidad"
 import Conferencias from "./Conferencias"
+import DynamicPageRenderer from "../components/DynamicPageRenderer"
+import { PageParser } from "../utils/pageParser"
 
 // Componente de carga
 const LoadingComponent = () => (
@@ -29,6 +31,52 @@ const ErrorComponent = ({ group, id_page }: { group: string; id_page?: string })
 
 const ActivityDetail = () => {
   const { group, id_page } = useParams<{ group: string; id_page?: string }>()
+  const [pageData, setPageData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string>("")
+
+  const loadPageData = async () => {
+    setLoading(true)
+    setError("")
+
+    try {
+      // Mapeo de grupos a carpetas
+      const folderMap: Record<string, string> = {
+        hetc: "hetcPages",
+        talleres: "tallPages",
+        conferencias: "confPages",
+      }
+
+      const folderName = folderMap[group]
+      if (!folderName) {
+        throw new Error(`Grupo no válido: ${group}`)
+      }
+
+      // Intentar cargar el archivo .txt
+      const response = await fetch(`/pages/${folderName}/${id_page}.txt`)
+      if (!response.ok) {
+        throw new Error(`No se pudo cargar la página: ${response.status}`)
+      }
+
+      const content = await response.text()
+      const parsedData = PageParser.parse(content)
+
+      setPageData(parsedData)
+    } catch (err) {
+      console.error("Error loading page data:", err)
+      setError(err instanceof Error ? err.message : "Error desconocido")
+      setPageData(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!id_page) {
+      return
+    }
+    loadPageData()
+  }, [group, id_page])
 
   if (!group) {
     return (
@@ -58,40 +106,15 @@ const ActivityDetail = () => {
     }
   }
 
-  // Si hay id_page, cargar la página individual específica
-  // Mapeo de grupos a carpetas
-  const folderMap: Record<string, string> = {
-    hetc: "hetcPages",
-    talleres: "tallPages",
-    conferencias: "confPages",
+  if (loading) {
+    return <LoadingComponent />
   }
 
-  const folderName = folderMap[group]
-
-  if (!folderName) {
+  if (error || !pageData) {
     return <ErrorComponent group={group} id_page={id_page} />
   }
 
-  // Carga dinámica del componente
-  let PageComponent
-  try {
-    PageComponent = lazy(() =>
-      import(`./${folderName}/${id_page}.tsx`).catch(() => {
-        // Si falla la importación, devolver un componente de error
-        return {
-          default: () => <ErrorComponent group={group} id_page={id_page} />,
-        }
-      }),
-    )
-  } catch (error) {
-    return <ErrorComponent group={group} id_page={id_page} />
-  }
-
-  return (
-    <Suspense fallback={<LoadingComponent />}>
-      <PageComponent />
-    </Suspense>
-  )
+  return <DynamicPageRenderer metadata={pageData.metadata} components={pageData.components} />
 }
 
 export default ActivityDetail
