@@ -114,43 +114,43 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               Inicio
             </Link>
             <Link
               to="/quienes-somos"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               ¿Quiénes somos?
             </Link>
             <Link
               to="/actividades"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               Actividades
             </Link>
             <Link
               to="/periodico"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               Periódico
             </Link>
             <Link
               to="/divulgacion"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               Divulgación
             </Link>
             <Link
               to="/unete"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               ¿Quieres unirte?
             </Link>
             <Link
               to="/contacto"
-              className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
+              className="block px-3 py-2 rounded-md text-base font-medium text-[#945EA4] hover:bg-[#935da3] hover:text-white hover:shadow-md hover:shadow-[#5a1a7d]"
             >
               Contacto
             </Link>
