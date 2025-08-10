@@ -113,7 +113,6 @@ const ActivityDetail = () => {
   if (error || !pageData) {
     return <ErrorComponent group={group} id_page={id_page} />
   }
-
   return <DynamicPageRenderer metadata={pageData.metadata} components={pageData.components} />
 }
 

@@ -1,5 +1,3 @@
-"use client"
-
 import { useRef } from "react"
 import { Link } from "react-router-dom"
 import AnimatedSection from "../components/AnimatedSection"
