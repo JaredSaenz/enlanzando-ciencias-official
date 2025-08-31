@@ -1,5 +1,3 @@
-"use client"
-
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -18,11 +16,12 @@ const LoadingComponent = () => (
 )
 
 // Componente de error
-const ErrorComponent = ({ group, id_page }: { group: string; id_page?: string }) => (
+const ErrorComponent = ({ group, id_page, error }: { group: string; id_page?: string; error?: string }) => (
   <div className="flex flex-col justify-center items-center min-h-[calc(100vh-4rem)] text-red-600">
     <div className="text-lg mb-4">
       {id_page ? `No se pudo cargar la actividad ${id_page} de ${group}.` : `No se pudo cargar la sección ${group}.`}
     </div>
+    {error && <div className="text-sm mb-4 text-gray-600 max-w-md text-center">{error}</div>}
     <Link to="/actividades" className="px-4 py-2 bg-[#552673] text-white rounded hover:bg-[#935da3] transition-colors">
       Volver a Actividades
     </Link>
@@ -47,19 +46,28 @@ const ActivityDetail = () => {
         conferencias: "confPages",
       }
 
-      const folderName = folderMap[group]
+      const folderName = folderMap[group!]
       if (!folderName) {
         throw new Error(`Grupo no válido: ${group}`)
       }
 
+      console.log(`Loading page: /pages/${folderName}/${id_page}.txt`)
+
       // Intentar cargar el archivo .txt
       const response = await fetch(`/pages/${folderName}/${id_page}.txt`)
       if (!response.ok) {
-        throw new Error(`No se pudo cargar la página: ${response.status}`)
+        throw new Error(`No se pudo cargar la página: ${response.status} - ${response.statusText}`)
       }
 
       const content = await response.text()
+      console.log("Raw content:", content)
+
       const parsedData = PageParser.parse(content)
+      console.log("Parsed data:", parsedData)
+
+      if (!parsedData.metadata.titlePage) {
+        throw new Error("El archivo no contiene un título válido")
+      }
 
       setPageData(parsedData)
     } catch (err) {
@@ -111,8 +119,9 @@ const ActivityDetail = () => {
   }
 
   if (error || !pageData) {
-    return <ErrorComponent group={group} id_page={id_page} />
+    return <ErrorComponent group={group} id_page={id_page} error={error} />
   }
+
   return <DynamicPageRenderer metadata={pageData.metadata} components={pageData.components} />
 }
 
