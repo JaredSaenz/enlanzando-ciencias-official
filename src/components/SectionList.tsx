@@ -3,7 +3,7 @@
 import type React from "react"
 import { useEffect, useState, useMemo, useCallback } from "react"
 import { Calendar, Filter, SortAsc, SortDesc } from "lucide-react"
-import { Link } from "react-router-dom" // Importar Link
+import { Link } from "react-router-dom"
 
 interface CsvItem {
   id: string
@@ -14,7 +14,7 @@ interface CsvItem {
 }
 
 interface SectionListProps {
-  section: string // talleres, hect, conferencias
+  section: string // talleres, hetc, conferencias, periodico
 }
 
 type SortOrder = "newest" | "oldest"
@@ -32,7 +32,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
   const sectionMap: Record<string, string> = {
     talleres: "tall",
     conferencias: "conf",
-    hect: "hetc",
+    hetc: "hetc",
     periodico: "news"
   }
 
@@ -42,28 +42,38 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
   const parseDate = useCallback((dateString: string): Date | null => {
     if (!dateString) return null
 
-    // Try different date formats
+    const cleanDate = dateString.trim()
     const formats = [
       /^\d{4}-\d{2}-\d{2}$/, // YYYY-MM-DD
       /^\d{2}\/\d{2}\/\d{4}$/, // DD/MM/YYYY
       /^\d{2}-\d{2}-\d{4}$/, // DD-MM-YYYY
+      /^\d{1,2}-\d{1,2}-\d{4}$/, // D-M-YYYY or DD-M-YYYY or D-MM-YYYY
     ]
 
     for (const format of formats) {
-      if (format.test(dateString)) {
+      if (format.test(cleanDate)) {
         let date: Date
 
-        if (dateString.includes("-") && dateString.length === 10 && dateString.indexOf("-") === 4) {
-          // YYYY-MM-DD format
-          date = new Date(dateString)
-        } else if (dateString.includes("/")) {
-          // DD/MM/YYYY format
-          const [day, month, year] = dateString.split("/")
-          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
-        } else if (dateString.includes("-")) {
-          // DD-MM-YYYY format
-          const [day, month, year] = dateString.split("-")
-          date = new Date(Number.parseInt(year), Number.parseInt(month) - 1, Number.parseInt(day))
+        if (cleanDate.includes("-") && cleanDate.length === 10 && cleanDate.indexOf("-") === 4) {
+          date = new Date(cleanDate)
+        } else if (cleanDate.includes("/")) {
+          const [day, month, year] = cleanDate.split("/")
+          date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+        } else if (cleanDate.includes("-")) {
+          const parts = cleanDate.split("-")
+          if (parts.length === 3) {
+            const day = parseInt(parts[0])
+            const month = parseInt(parts[1])
+            const year = parseInt(parts[2])
+            
+            if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900) {
+              date = new Date(year, month - 1, day)
+            } else {
+              continue
+            }
+          } else {
+            continue
+          }
         } else {
           continue
         }
@@ -77,7 +87,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
     return null
   }, [])
 
-  // Solo se ejecuta cuando cambia la sección, NO cuando cambian los filtros
+  // Load CSV data with optimized fetch
   useEffect(() => {
     const fetchCsvData = async () => {
       try {
@@ -88,6 +98,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           method: "GET",
           headers: {
             "Content-Type": "text/plain",
+            "Cache-Control": "public, max-age=300" // Cache for 5 minutes
           },
         })
 
@@ -119,7 +130,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           const line = lines[i].trim()
           if (!line) continue
 
-          const values = line.split(";").map((value) => value.trim())
+          const values = line.split(";").map((value) => value.trim().replace(/^"(.*)"$/, '$1'))
 
           if (values.length >= 4 && values[0] && values[0] !== "") {
             const item: CsvItem = {
@@ -129,7 +140,6 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               short_desc: values[3] || "Sin descripción",
             }
 
-            // Parse date for filtering (still needed for time filters)
             if (item.date) {
               const parsedDate = parseDate(item.date)
               if (parsedDate) {
@@ -141,11 +151,8 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           }
         }
 
-        // Ordenar inicialmente por ID (más recientes = ID más alto primero) al cargar los datos
-        data.sort((a, b) => {
-          return Number.parseInt(b.id) - Number.parseInt(a.id)
-        })
-
+        // Sort by ID (newest first)
+        data.sort((a, b) => parseInt(b.id) - parseInt(a.id))
         setItems(data)
       } catch (err) {
         console.error("Error loading CSV:", err)
@@ -158,19 +165,18 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
     if (section) {
       fetchCsvData()
-      // Reset filters when section changes
-      setSortOrder("newest") // Default to newest (highest ID)
+      setSortOrder("newest")
       setTimeFilter("all")
     }
-  }, [section, parseDate]) // Solo depende de section y parseDate
+  }, [section, parseDate])
 
-  // Filter and sort items - se ejecuta solo cuando cambian los filtros o items
+  // Optimized filter and sort with useMemo
   const filteredAndSortedItems = useMemo(() => {
     if (items.length === 0) return []
 
     let filtered = [...items]
 
-    // Apply time filter (still uses parsedDate)
+    // Apply time filter
     if (timeFilter !== "all") {
       const now = new Date()
       let filterDate: Date
@@ -189,7 +195,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
           filterDate = new Date(now.getFullYear(), 0, 1)
           break
         default:
-          filterDate = new Date(0) // Very old date
+          filterDate = new Date(0)
       }
 
       filtered = filtered.filter((item) => {
@@ -198,17 +204,11 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
       })
     }
 
-    // Apply sorting based on ID
+    // Apply sorting
     if (sortOrder === "oldest") {
-      filtered.sort((a, b) => {
-        // Más antiguos primero (orden ascendente por ID)
-        return Number.parseInt(a.id) - Number.parseInt(b.id)
-      })
+      filtered.sort((a, b) => parseInt(a.id) - parseInt(b.id))
     } else {
-      // "newest" (orden descendente por ID) - ya está ordenado así inicialmente, pero lo reconfirmamos
-      filtered.sort((a, b) => {
-        return Number.parseInt(b.id) - Number.parseInt(a.id)
-      })
+      filtered.sort((a, b) => parseInt(b.id) - parseInt(a.id))
     }
 
     return filtered
@@ -229,7 +229,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
     [parseDate],
   )
 
-  // Handlers para evitar re-renders innecesarios
+  // Optimized handlers
   const handleSortChange = useCallback((newSort: SortOrder) => {
     setSortOrder(newSort)
   }, [])
@@ -241,6 +241,31 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
   const handleToggleFilters = useCallback(() => {
     setShowFilters((prev) => !prev)
   }, [])
+
+  // Optimized image loading with WebP support
+  const getOptimizedImageSrc = useCallback((item: CsvItem) => {
+    const imageBasePath = `/actividades/${section}`
+    return `${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.webp`
+  }, [section, shortSection])
+
+  const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>, item: CsvItem) => {
+    const target = e.currentTarget
+    const imageBasePath = `/actividades/${section}`
+    
+    if (target.src.includes(`${shortSection}-${item.id}`)) {
+      // First fallback: try JPG version
+      target.src = `${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`
+    } else if (target.src.includes('.jpg')) {
+      // Second fallback: general section image
+      target.src = `${imageBasePath}/actividades_${section}.webp`
+    } else if (target.src.includes(`actividades_${section}.webp`)) {
+      // Third fallback: JPG version of section image
+      target.src = `${imageBasePath}/actividades_${section}.jpg`
+    } else {
+      // Final fallback: placeholder
+      target.src = `/placeholder.svg?height=192&width=384`
+    }
+  }, [section, shortSection])
 
   if (loading) {
     return (
@@ -257,7 +282,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
         <div className="text-lg text-red-600 mb-4">{error}</div>
         <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-[#552673] text-white rounded hover:bg-[#935da3] transition-colors"
+          className="px-4 py-2 bg-[#552673] text-white rounded hover:bg-[#935da3] transition-colors duration-200"
         >
           Intentar de nuevo
         </button>
@@ -267,15 +292,16 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
 
   return (
     <div className="space-y-6">
-      {/* Filter Controls */}
-      <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+      {/* Optimized Filter Controls */}
+      <div className="bg-white rounded-lg shadow-md p-4 border border-gray-200 transition-shadow duration-200 hover:shadow-lg">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-2">
             <Filter className="h-5 w-5 text-[#552673]" />
             <span className="font-medium text-[#552673]">Filtros</span>
             <button
               onClick={handleToggleFilters}
-              className="text-sm text-gray-500 hover:text-[#552673] transition-colors sm:hidden"
+              className="text-sm text-gray-500 hover:text-[#552673] transition-colors duration-200 sm:hidden"
+              aria-label={showFilters ? "Ocultar filtros" : "Mostrar filtros"}
             >
               {showFilters ? "Ocultar" : "Mostrar"}
             </button>
@@ -288,7 +314,8 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               <select
                 value={timeFilter}
                 onChange={(e) => handleTimeFilterChange(e.target.value as TimeFilter)}
-                className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent"
+                className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent transition-all duration-200"
+                aria-label="Filtrar por tiempo"
               >
                 <option value="all">Todas las fechas</option>
                 <option value="thisWeek">Esta semana</option>
@@ -308,7 +335,8 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
               <select
                 value={sortOrder}
                 onChange={(e) => handleSortChange(e.target.value as SortOrder)}
-                className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent"
+                className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-[#552673] focus:border-transparent transition-all duration-200"
+                aria-label="Ordenar por"
               >
                 <option value="newest">Más recientes primero</option>
                 <option value="oldest">Más antiguos primero</option>
@@ -323,7 +351,7 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Optimized Results Grid */}
       {filteredAndSortedItems.length === 0 ? (
         <div className="flex justify-center items-center py-12">
           <div className="text-center">
@@ -340,47 +368,38 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredAndSortedItems.map((item) => {
-            const imageBasePath = `/actividades/${section}`
-            // Construir la ruta de la página individual
             const pagePath = `/actividades/${section}/${item.id}`
 
             return (
-              <div
+              <article
                 key={item.id}
-                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
               >
-                <Link to={pagePath} className="block">
-                  {" "}
-                  {/* Envolver toda la tarjeta con Link */}
-                  <img
-                    src={`${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                    onError={(e) => {
-                      const target = e.currentTarget
-                      // Primera imagen de respaldo: imagen general de la sección
-                      if (target.src.includes(`${shortSection}-${item.id}`)) {
-                        target.src = `${imageBasePath}/actividades_${section}.jpg`
-                      } else if (target.src.includes(`actividades_${section}`)) {
-                        // Segunda imagen de respaldo: placeholder
-                        target.src = `/placeholder.svg?height=192&width=384`
-                      }
-                    }}
-                  />
+                <Link to={pagePath} className="block group">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={getOptimizedImageSrc(item)}
+                      alt={item.title}
+                      className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      onError={(e) => handleImageError(e, item)}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2 hover:underline">
+                    <h3 className="text-xl font-semibold text-[#552673] mb-2 line-clamp-2 group-hover:text-[#935da3] transition-colors duration-200">
                       {item.title}
                     </h3>
                     {item.date && item.date !== "" && (
                       <p className="text-sm text-gray-500 mb-2 flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
-                        {formatDate(item.date)}
+                        <time dateTime={item.date}>{formatDate(item.date)}</time>
                       </p>
                     )}
-                    <p className="text-gray-700 line-clamp-3">{item.short_desc}</p>
+                    <p className="text-gray-700 line-clamp-3 leading-relaxed">{item.short_desc}</p>
                   </div>
                 </Link>
-              </div>
+              </article>
             )
           })}
         </div>

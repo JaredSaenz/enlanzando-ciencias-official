@@ -1,120 +1,226 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import AnimatedSection from '../components/AnimatedSection';
-import NewsBar from '../components/NewsBar';
-import { ChevronDown } from 'lucide-react'; // Importamos el icono de flecha hacia abajo
+import { useRef, useCallback, useMemo } from "react"
+import { Link } from "react-router-dom"
+import AnimatedSection from "../components/AnimatedSection"
+import { ChevronDown, Users, Target, Eye } from "lucide-react"
 
 const Home = () => {
-  // Referencia para el contenido hacia donde nos desplazaremos
-  const contentRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null)
 
-  // Asegurarse de que el SDK de Facebook cargue correctamente
-  useEffect(() => {
-    if (window.FB) {
-      window.FB.XFBML.parse();
+  const scrollToContent = useCallback(() => {
+    contentRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [])
+
+  const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>, fallbackSrc: string) => {
+    const target = e.currentTarget
+    if (target.src !== fallbackSrc) {
+      target.src = fallbackSrc
+    } else {
+      target.src = "/images/Placeholder.jpg"
     }
-  }, []);
+  }, [])
 
-  // Función para desplazar la página hacia el contenido
-  const scrollToContent = () => {
-    contentRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // Memoized sections data for better performance
+  const sections = useMemo(() => [
+    {
+      id: "quienes-somos",
+      title: "¿Quiénes Somos?",
+      description: "Somos un grupo de estudiantes apasionados por la divulgación científica, comprometidos con acercar la ciencia a todas las personas de manera accesible y divertida.",
+      image: "/quienes_somos.webp",
+      fallback: "/quienes_somos.jpg",
+      link: "/quienes-somos",
+      icon: Users,
+    },
+    {
+      id: "que-hacemos",
+      title: "¿Qué Hacemos?",
+      description: "Desarrollamos talleres, conferencias y actividades comunitarias que transforman conceptos científicos complejos en experiencias educativas memorables.",
+      image: "/que_hacemos.webp",
+      fallback: "/que_hacemos.jpg",
+      link: "/actividades",
+      icon: Target,
+    },
+    {
+      id: "nuestra-vision",
+      title: "Nuestra Visión",
+      description: "Construir una sociedad más informada y curiosa, donde la ciencia sea parte integral de la vida cotidiana y esté al alcance de todos.",
+      image: "/nuestra_vision.webp",
+      fallback: "/nuestra_vision.jpg",
+      link: "/divulgacion",
+      icon: Eye,
+    },
+  ], [])
+
+  const activities = useMemo(() => [
+    {
+      title: "Talleres",
+      image: "/inicio/talleres_EC.webp",
+      fallback: "/inicio/talleres_EC.jpg",
+      link: "/actividades/talleres",
+      description: "Experiencias prácticas y creativas"
+    },
+    {
+      title: "Conferencias",
+      image: "/inicio/conferencias_EC.webp",
+      fallback: "/inicio/conferencias_EC.jpg",
+      link: "/actividades/conferencias",
+      description: "Charlas educativas e inspiradoras"
+    },
+    {
+      title: "Hoy en tu Comunidad",
+      image: "/inicio/hetc_EC.webp",
+      fallback: "/inicio/hetc_EC.jpg",
+      link: "/actividades/hetc",
+      description: "Ciencia directa a las comunidades"
+    },
+  ], [])
 
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
+    <div className="bg-white min-h-screen">
+      {/* Optimized Hero Section */}
       <div
-        className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
+        className="relative h-screen bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+          backgroundImage: "url('/mesa_directiva_EC.webp')",
         }}
       >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60"></div>
         <div className="relative max-w-7xl mx-auto h-full flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
-            <h1 className="text-4xl font-extrabold text-white sm:text-5xl md:text-6xl mb-4">
-              Bienvenidos a Enlazando Ciencias
+            <img
+              src="/logo.webp"
+              alt="Enlazando Ciencias Logo"
+              className="w-32 h-32 mx-auto mb-8 drop-shadow-2xl"
+              loading="eager"
+              onError={(e) => handleImageError(e, "/logo.jpg")}
+            />
+            <h1 className="text-5xl font-extrabold text-white sm:text-6xl md:text-7xl mb-6 drop-shadow-2xl">
+              Enlazando Ciencias
             </h1>
-            {/* Flecha que rebota y al hacer clic desplaza hacia el contenido */}
-            <div className="animate-bounce text-white cursor-pointer" onClick={scrollToContent}>
-              <ChevronDown className="h-10 w-10 mx-auto" />
-            </div>
+            <p className="text-xl text-gray-200 sm:text-2xl mb-8 max-w-3xl leading-relaxed drop-shadow-lg">
+              Conectando el conocimiento científico con la comunidad a través de experiencias educativas únicas
+            </p>
+            <button
+              onClick={scrollToContent}
+              className="animate-bounce text-white cursor-pointer hover:text-gray-200 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-30 rounded-full p-3 hover:scale-110"
+              aria-label="Explorar contenido"
+            >
+              <ChevronDown className="h-12 w-12 mx-auto" />
+            </button>
           </AnimatedSection>
         </div>
       </div>
 
-      {/* News Bar */}
-      <NewsBar />
-
-      {/* Rest of the content */}
-      <div ref={contentRef} className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-        <AnimatedSection>
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold text-[#935da3] mb-6">¿Quiénes somos?</h2>
-            <p className="text-gray-700 mb-6">
-              Somos una agrupación estudiantil comprometida con la divulgación científica. Nuestro propósito es acercar el conocimiento científico a la sociedad de manera accesible y comprensible. A través de talleres, ferias de ciencia, conferencias y diversas actividades, buscamos inspirar a personas de todas las edades a explorar, aprender y apasionarse por la ciencia.
-            </p>
-            <p className="text-gray-700 mb-6">
-              Estamos convencidos de que la ciencia debe ser compartida y comprendida por todos. Por ello, trabajamos para construir puentes entre el conocimiento académico y la comunidad. ¡Únete a nosotros en esta emocionante misión de compartir el saber!
-            </p>
-            <Link to="/quienes-somos" className="text-[#552673] font-semibold hover:text-[#935da3] transition duration-300">
-              Leer más...
-            </Link>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection>
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold text-[#935da3] mb-6">Actividades</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {['Talleres', 'Conferencias', 'HETC'].map((activity, index) => (
-                <div key={index} className="text-center">
-                  <img src={`/inicio/${activity.toLowerCase()}_EC.jpg`} alt={activity} className="w-full h-48 object-cover rounded-lg mb-4" />
-                  <Link to="/actividades" className="text-[#552673] font-semibold hover:text-[#935da3] transition duration-300">
-                    {activity}
+      {/* Optimized Main Sections */}
+      <div ref={contentRef} className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        {sections.map((section, index) => (
+          <section key={section.id} className="mb-24">
+            <AnimatedSection>
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                index % 2 === 1 ? "lg:grid-flow-col-dense" : ""
+              }`}>
+                <div className={index % 2 === 1 ? "lg:col-start-2" : ""}>
+                  <Link to={section.link} className="block group">
+                    <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                      <img
+                        src={section.image}
+                        alt={section.title}
+                        className="w-full h-80 object-cover transition-all duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        onError={(e) => handleImageError(e, section.fallback)}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#552673]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                      <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <span className="text-white font-semibold text-lg">Explorar más →</span>
+                      </div>
+                    </div>
                   </Link>
                 </div>
-              ))}
-            </div>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection>
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold text-[#935da3] mb-6">¿Te interesa que realicemos alguna actividad en tu escuela?</h2>
-            <p className="text-gray-700 mb-6">
-              Si estás interesado en que acudamos a tu institución para realizar alguna feria de experimentos, taller, rally o actividad, ponte en contacto con nosotros. Estaremos encantados de llevar la ciencia a tu escuela.
-            </p>
-            <Link to="/contacto" className="inline-block bg-[#552673] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#935da3] transition duration-300">
-              Contacto
-            </Link>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection>
-          <div className="mt-16">
-            <h2 className="text-3xl font-bold text-[#935da3] mb-6">Síguenos en Facebook</h2>
-            <div className="bg-white shadow-lg rounded-lg p-6 overflow-hidden flex justify-center">
-              <div
-                className="fb-page"
-                data-href="https://www.facebook.com/Enlazando.ciencias"
-                data-tabs="timeline"
-                data-width="500"
-                data-height="700"
-                data-small-header="true"
-                data-adapt-container-width="true"
-                data-hide-cover="true"
-                data-show-facepile="true">
-                <blockquote cite="https://www.facebook.com/Enlazando.ciencias" className="fb-xfbml-parse-ignore">
-                  <a href="https://www.facebook.com/Enlazando.ciencias">Enlazando Ciencias</a>
-                </blockquote>
+                <div className={`space-y-6 ${index % 2 === 1 ? "lg:col-start-1" : ""}`}>
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-[#552673] rounded-full">
+                      <section.icon className="h-8 w-8 text-white" />
+                    </div>
+                    <Link to={section.link} className="group">
+                      <h2 className="text-4xl font-bold text-[#552673] group-hover:text-[#935da3] transition-colors duration-300">
+                        {section.title}
+                      </h2>
+                    </Link>
+                  </div>
+                  <p className="text-gray-700 text-lg leading-relaxed">
+                    {section.description}
+                  </p>
+                  <Link
+                    to={section.link}
+                    className="inline-flex items-center gap-2 text-[#552673] hover:text-[#935da3] font-semibold transition-all duration-300 group"
+                  >
+                    Conocer más
+                    <ChevronDown className="h-4 w-4 rotate-[-90deg] group-hover:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
-        </AnimatedSection>
+            </AnimatedSection>
+          </section>
+        ))}
       </div>
-    </div>
-  );
-};
 
-export default Home;
+      {/* Optimized Activities Preview */}
+      <section className="bg-gradient-to-br from-[#552673] to-[#935da3] py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-white mb-4">
+                Nuestras Actividades
+              </h2>
+              <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+                Descubre las diferentes formas en que llevamos la ciencia a la comunidad
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {activities.map((activity, index) => (
+              <AnimatedSection key={activity.title}>
+                <Link to={activity.link} className="block group">
+                  <article className="bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div className="relative overflow-hidden">
+                      <img
+                        src={activity.image}
+                        alt={activity.title}
+                        className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+                        loading="lazy"
+                        onError={(e) => handleImageError(e, activity.fallback)}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold text-[#552673] mb-2 group-hover:text-[#935da3] transition-colors duration-300">
+                        {activity.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed">
+                        {activity.description}
+                      </p>
+                    </div>
+                  </article>
+                </Link>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          <AnimatedSection>
+            <div className="text-center mt-12">
+              <Link
+                to="/actividades"
+                className="inline-flex items-center gap-2 bg-white text-[#552673] px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                Ver todas las actividades
+                <ChevronDown className="h-5 w-5 rotate-[-90deg]" />
+              </Link>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default Home
