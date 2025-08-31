@@ -1,3 +1,100 @@
+# Instructivo para Cargar Imágenes en una Página Web
+
+Este instructivo explica cómo preparar y organizar imágenes para una página web, incluyendo la estructura de carpetas, el nombramiento de archivos, y la creación de un archivo ZIP para su entrega al administrador de la página. Las imágenes se usarán junto con una plantilla de página web (como la descrita en el instructivo anterior).
+
+## Estructura de Carpetas
+
+Las imágenes deben organizarse en carpetas con un nombre específico que combine la **sección** y el **número de página** dentro de esa sección. El formato es:
+
+```
+"sección"-"número"
+```
+
+### Secciones Disponibles
+Cada sección tiene un código abreviado que debe usarse en el nombre de la carpeta:
+
+- **Talleres**: `tall`
+- **Conferencias**: `conf`
+- **Hoy en tu comunidad**: `hetc`
+- **Periódico**: `news`
+
+### Número de Página
+El número corresponde al orden de la página dentro de la sección. Por ejemplo, si ya existen 10 páginas en la sección "Talleres" y se desea agregar una nueva, la carpeta se nombrará:
+
+```
+tall-11
+```
+
+## Nombramiento de Imágenes
+
+Las imágenes deben cargarse dentro de la carpeta correspondiente y nombrarse siguiendo el formato:
+
+```
+"nombreDeLaCarpeta"-"número".webp
+```
+
+- **Formato de imagen**: Todas las imágenes deben estar en formato **WEBP** para optimizar los tiempos de carga de la página web.
+- **Número de imagen**: Un número secuencial que comienza en `1` para cada carpeta.
+- **Primera imagen**: La imagen con el número `1` (por ejemplo, `tall-11-1.webp`) será utilizada como **portada** en el apartado general de la sección.
+
+### Ejemplo
+Para la carpeta `tall-11` con 5 imágenes, los nombres serían:
+
+1. `tall-11-1.webp`
+2. `tall-11-2.webp`
+3. `tall-11-3.webp`
+4. `tall-11-4.webp`
+5. `tall-11-5.webp`
+
+## Archivo title.txt
+
+Se recomienda incluir un archivo de texto llamado `title.txt` dentro de la carpeta para especificar el título del artículo o página. Este archivo es opcional, pero su uso facilita la identificación del contenido.
+
+- **Nombre del archivo**: `title.txt`
+- **Contenido**: Una sola línea con el título del artículo o página.
+
+### Ejemplo de `title.txt`
+```
+Visita a Santa María Chi
+```
+
+## Preparación del Archivo ZIP
+
+Una vez que la carpeta contiene las imágenes y, opcionalmente, el archivo `title.txt`, debe comprimirse en un archivo ZIP para su entrega.
+
+### Pasos para Crear el Archivo ZIP
+1. **Crear la carpeta**: Crea una carpeta con el nombre correcto (por ejemplo, `tall-11`).
+2. **Añadir imágenes**: Coloca las imágenes en formato WEBP con los nombres correctos (por ejemplo, `tall-11-1.webp`, `tall-11-2.webp`, etc.).
+3. **Añadir title.txt (opcional)**: Crea un archivo `title.txt` con el título del artículo y guárdalo en la carpeta.
+4. **Comprimir la carpeta**: Selecciona la carpeta (por ejemplo, `tall-11`) y comprímela en un archivo ZIP (por ejemplo, `tall-11.zip`).
+   - En Windows: Haz clic derecho en la carpeta, selecciona "Enviar a" > "Carpeta comprimida (zip)".
+   - En macOS: Haz clic derecho en la carpeta y selecciona "Comprimir tall-11".
+   - En Linux: Usa un comando como `zip -r tall-11.zip tall-11`.
+5. **Entregar el archivo ZIP**: Proporciona el archivo ZIP al administrador de la página web junto con la plantilla correspondiente (archivo TXT con la estructura de la página).
+
+## Ejemplo de Estructura Completa
+
+Supongamos que se está creando una nueva página en la sección "Talleres" como la página número 11:
+
+- **Nombre de la carpeta**: `tall-11`
+- **Contenido de la carpeta**:
+  - `tall-11-1.webp` (portada)
+  - `tall-11-2.webp`
+  - `tall-11-3.webp`
+  - `tall-11-4.webp`
+  - `tall-11-5.webp`
+  - `title.txt` (conteniendo, por ejemplo, `Taller de Química Divertida`)
+- **Archivo ZIP**: `tall-11.zip`
+
+## Notas Adicionales
+- **Formato WEBP**: Asegúrate de que todas las imágenes se conviertan a WEBP antes de cargarlas. Puedes usar herramientas como Adobe Photoshop, GIMP, o convertidores en línea para generar archivos WEBP.
+- **Consistencia en nombres**: Verifica que los nombres de las imágenes coincidan exactamente con el formato `"nombreDeLaCarpeta"-"número".webp` para evitar errores en la página web.
+- **Primera imagen como portada**: La imagen con el número `1` debe ser representativa, ya que se mostrará como portada en el apartado general de la sección.
+- **Compatibilidad con la plantilla**: Asegúrate de que los números de imagen (`imageNumber`) en la plantilla (por ejemplo, en funciones como `TextWithImage` o `FullWidthImage`) coincidan con los números de las imágenes en la carpeta.
+- **Entrega**: El archivo ZIP y la plantilla (archivo TXT) deben entregarse juntos al administrador para garantizar que la página se genere correctamente.
+
+Con este instructivo, puedes preparar y organizar correctamente las imágenes para una página web, asegurando una integración fluida con la plantilla correspondiente.
+
 # Instructivo para Generar un Archivo TXT para una Plantilla de Página Web
 
 Este instructivo explica cómo crear un archivo de texto (.txt) que sirva como plantilla para generar una página web estructurada. El archivo debe seguir un formato específico con secciones, identificadores, títulos, subtítulos, textos, imágenes y otros elementos, como se muestra en el ejemplo proporcionado.
