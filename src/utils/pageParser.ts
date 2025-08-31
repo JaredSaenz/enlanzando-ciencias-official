@@ -124,7 +124,8 @@ export class PageParser {
   }
 
   private static parseComponent(componentStr: string): ComponentCall | null {
-    const match = componentStr.match(/^(TextOnly|TextWithImage|FullWidthImage|ThreeImages)$$([\s\S]*)$$$/)
+    // Fixed regex pattern - using proper parentheses capture groups
+    const match = componentStr.match(/^(TextOnly|TextWithImage|FullWidthImage|ThreeImages)\(([\s\S]*)\)$/)
     if (!match) return null
 
     const [, type, paramsStr] = match
@@ -259,5 +260,59 @@ export class PageParser {
 
     // Return as string
     return value
+  }
+
+  // Helper method to generate React component from parsed page
+  static generateReactComponent(parsedPage: ParsedPage): string {
+    const { metadata, components } = parsedPage
+    
+    let componentCode = `import React from 'react'
+import { TextOnly, TextWithImage, FullWidthImage, ThreeImages } from '../../components/PageComponents'
+
+const Page${metadata.id} = () => {
+  const section = "${metadata.section}"
+  const id = "${metadata.id}"
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+          ${metadata.titlePage}
+        </h1>
+        
+`
+
+    components.forEach((component, index) => {
+      const { type, params } = component
+      
+      // Replace section and id variables with actual values
+      const processedParams = params.map(param => {
+        if (param === 'section') return `"${metadata.section}"`
+        if (param === 'id') return `"${metadata.id}"`
+        if (typeof param === 'string') return `"${param}"`
+        if (typeof param === 'object') return JSON.stringify(param)
+        return param
+      })
+      
+      componentCode += `        <${type}\n`
+      processedParams.forEach((param, paramIndex) => {
+        if (paramIndex === 0) {
+          componentCode += `          ${param}\n`
+        } else {
+          componentCode += `          ${param}\n`
+        }
+      })
+      componentCode += `        />\n\n`
+    })
+
+    componentCode += `      </div>
+    </div>
+  )
+}
+
+export default Page${metadata.id}
+`
+
+    return componentCode
   }
 }

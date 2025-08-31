@@ -6,14 +6,10 @@ TextOnly("Un Día de Ciencia en la Comunidad", `Nuestra visita a Santa María Ch
 
 El entusiasmo de los participantes fue contagioso, y ver sus rostros de asombro y alegría al descubrir nuevos conceptos científicos nos llenó de satisfacción. Creemos firmemente que la ciencia es para todos y que acercarla a las comunidades es fundamental para el desarrollo y la inspiración de las nuevas generaciones.`)
 
-TextWithImage("Talleres Interactivos y Demostraciones", `Durante la jornada, organizamos varios talleres prácticos. Uno de los más populares fue el de "Química Divertida", donde los niños pudieron crear sus propios slimes y observar reacciones químicas sorprendentes de forma segura. También tuvimos demostraciones de física, explicando principios básicos de una manera muy visual y participativa.
-
-La interacción directa con los materiales y los experimentos permitió a los asistentes comprender conceptos complejos de una manera sencilla y memorable. Fue un espacio donde la teoría se convirtió en una experiencia tangible y emocionante.`, section, id, 1, "right")
+TextWithImage("Talleres Interactivos y Demostraciones", `Durante la jornada, organizamos varios talleres prácticos. Uno de los más populares fue el de "Química Divertida", donde los niños pudieron crear sus propios slimes y observar reacciones químicas sorprendentes de forma segura. También tuvimos demostraciones de física, explicando principios básicos de una manera muy visual y participativa. La interacción directa con los materiales y los experimentos permitió a los asistentes comprender conceptos complejos de una manera sencilla y memorable. Fue un espacio donde la teoría se convirtió en una experiencia tangible y emocionante.`, section, id, 1, "right")
 
 FullWidthImage("Momentos de Aprendizaje y Diversión", "Los niños de Santa María Chi participando activamente en los experimentos.", section, id, 2)
 
-TextWithImage("Impacto en la Comunidad", `La respuesta de la comunidad fue abrumadora. Padres, maestros y líderes comunitarios expresaron su agradecimiento por llevar este tipo de actividades a su localidad. Este tipo de iniciativas refuerza nuestro compromiso con la divulgación científica y nos motiva a seguir trabajando para que el conocimiento sea accesible para todos.
-
-Esperamos que esta visita haya sembrado una semilla de curiosidad y que muchos de los jóvenes de Santa María Chi se sientan inspirados a explorar el fascinante mundo de la ciencia en el futuro.`, section, id, 3, "left")
+TextWithImage("Impacto en la Comunidad", `La respuesta de la comunidad fue abrumadora. Padres, maestros y líderes comunitarios expresaron su agradecimiento por llevar este tipo de actividades a su localidad. Este tipo de iniciativas refuerza nuestro compromiso con la divulgación científica y nos motiva a seguir trabajando para que el conocimiento sea accesible para todos. Esperamos que esta visita haya sembrado una semilla de curiosidad y que muchos de los jóvenes de Santa María Chi se sientan inspirados a explorar el fascinante mundo de la ciencia en el futuro.`, section, id, 3, "left")
 
 ThreeImages(section, id, "Galería de la Visita", [{"imageNumber": 4, "caption": "Explicando conceptos básicos"}, {"imageNumber": 5, "caption": "Trabajo en equipo"}, {"imageNumber": 6, "caption": "Sonrisas y descubrimientos"}])
