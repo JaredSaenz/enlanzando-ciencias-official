@@ -25,8 +25,8 @@ const FullWidthImage: React.FC<FullWidthImageProps> = ({
   }
 
   const shortSection = sectionMap[section] || section
-  const imageSrc = `/actividades/${section}/${shortSection}-${id}/${shortSection}-${id}-${imageNumber}.jpg`
-  const fallbackSrc = `/actividades/actividades_${section}.jpg`
+  const imageSrc = `/actividades/${section}/${shortSection}-${id}/${shortSection}-${id}-${imageNumber}.webp`
+  const fallbackSrc = `/actividades/actividades_${section}.webp`
 
   return (
     <div className={`bg-[#552673] rounded-lg shadow-lg mb-8 overflow-hidden ${className}`}>

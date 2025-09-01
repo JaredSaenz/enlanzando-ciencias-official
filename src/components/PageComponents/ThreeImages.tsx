@@ -20,7 +20,7 @@ const ThreeImages: React.FC<ThreeImagesProps> = ({ section, id, title, images, c
   }
 
   const shortSection = sectionMap[section] || section
-  const fallbackSrc = `/actividades/actividades_${section}.jpg`
+  const fallbackSrc = `/actividades/actividades_${section}.webp`
 
   // Asegurar que tenemos exactamente 3 imágenes
   const imageData = images.slice(0, 3).map((img, index) => ({
@@ -42,7 +42,7 @@ const ThreeImages: React.FC<ThreeImagesProps> = ({ section, id, title, images, c
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {imageData.map((imageInfo, index) => {
-          const imageSrc = `/actividades/${section}/${shortSection}-${id}/${shortSection}-${id}-${imageInfo.imageNumber}.jpg`
+          const imageSrc = `/actividades/${section}/${shortSection}-${id}/${shortSection}-${id}-${imageInfo.imageNumber}.webp`
 
           return (
             <div key={index} className="flex flex-col">
