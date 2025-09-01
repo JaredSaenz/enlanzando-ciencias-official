@@ -19,9 +19,9 @@ const Navbar = () => {
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget
     if (target.src.includes('.webp')) {
-      target.src = "/logo.jpg"
+      target.src = "/logo.webp"
     } else {
-      target.src = "/images/Placeholder.jpg"
+      target.src = "/images/Placeholder.webp"
     }
   }, [])
 

@@ -6,9 +6,9 @@ const Footer = () => {
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget
     if (target.src.includes('.webp')) {
-      target.src = "/logo.jpg"
+      target.src = "/logo.webp"
     } else {
-      target.src = "/images/placeholder.jpg"
+      target.src = "/images/placeholder.webp"
     }
   }, [])
 

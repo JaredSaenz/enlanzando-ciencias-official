@@ -98,7 +98,7 @@ const DynamicPageRenderer: React.FC<DynamicPageRendererProps> = ({ metadata, com
       <div
         className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+          backgroundImage: "url('/mesa_directiva_EC.webp')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>

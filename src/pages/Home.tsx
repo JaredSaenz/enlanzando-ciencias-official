@@ -15,7 +15,7 @@ const Home = () => {
     if (target.src !== fallbackSrc) {
       target.src = fallbackSrc
     } else {
-      target.src = "/images/Placeholder.jpg"
+      target.src = "/images/Placeholder.webp"
     }
   }, [])
 
@@ -26,7 +26,7 @@ const Home = () => {
       title: "¿Quiénes Somos?",
       description: "Somos un grupo de estudiantes apasionados por la divulgación científica, comprometidos con acercar la ciencia a todas las personas de manera accesible y divertida.",
       image: "/quienes_somos.webp",
-      fallback: "/quienes_somos.jpg",
+      fallback: "/quienes_somos.webp",
       link: "/quienes-somos",
       icon: Users,
     },
@@ -35,7 +35,7 @@ const Home = () => {
       title: "¿Qué Hacemos?",
       description: "Desarrollamos talleres, conferencias y actividades comunitarias que transforman conceptos científicos complejos en experiencias educativas memorables.",
       image: "/que_hacemos.webp",
-      fallback: "/que_hacemos.jpg",
+      fallback: "/que_hacemos.webp",
       link: "/actividades",
       icon: Target,
     },
@@ -44,7 +44,7 @@ const Home = () => {
       title: "Nuestra Visión",
       description: "Construir una sociedad más informada y curiosa, donde la ciencia sea parte integral de la vida cotidiana y esté al alcance de todos.",
       image: "/nuestra_vision.webp",
-      fallback: "/nuestra_vision.jpg",
+      fallback: "/nuestra_vision.webp",
       link: "/divulgacion",
       icon: Eye,
     },
@@ -54,21 +54,21 @@ const Home = () => {
     {
       title: "Talleres",
       image: "/inicio/talleres_EC.webp",
-      fallback: "/inicio/talleres_EC.jpg",
+      fallback: "/inicio/talleres_EC.webp",
       link: "/actividades/talleres",
       description: "Experiencias prácticas y creativas"
     },
     {
       title: "Conferencias",
       image: "/inicio/conferencias_EC.webp",
-      fallback: "/inicio/conferencias_EC.jpg",
+      fallback: "/inicio/conferencias_EC.webp",
       link: "/actividades/conferencias",
       description: "Charlas educativas e inspiradoras"
     },
     {
       title: "Hoy en tu Comunidad",
       image: "/inicio/hetc_EC.webp",
-      fallback: "/inicio/hetc_EC.jpg",
+      fallback: "/inicio/hetc_EC.webp",
       link: "/actividades/hetc",
       description: "Ciencia directa a las comunidades"
     },
@@ -91,7 +91,7 @@ const Home = () => {
               alt="Enlazando Ciencias Logo"
               className="w-32 h-32 mx-auto mb-8 drop-shadow-2xl"
               loading="eager"
-              onError={(e) => handleImageError(e, "/logo.jpg")}
+              onError={(e) => handleImageError(e, "/logo.webp")}
             />
             <h1 className="text-5xl font-extrabold text-white sm:text-6xl md:text-7xl mb-6 drop-shadow-2xl">
               Enlazando Ciencias

@@ -202,8 +202,8 @@ const NewsBar: React.FC = () => {
           <div className="flex justify-center sm:justify-between space-x-4 overflow-hidden">
             {newsItems.slice(currentGroup * 3, currentGroup * 3 + 3).map((item) => {
               const shortSection = sectionMap[item.section] || item.section
-              const imagePath = `/actividades/${item.section}/${shortSection}-${item.id_section}/${shortSection}-${item.id_section}-1.jpg`
-              const fallbackSectionImage = `/actividades/actividades_${item.section}.jpg`
+              const imagePath = `/actividades/${item.section}/${shortSection}-${item.id_section}/${shortSection}-${item.id_section}-1.webp`
+              const fallbackSectionImage = `/actividades/actividades_${item.section}.webp`
               const linkPath = `/actividades/${item.section}/${item.id_section}`
 
               return (

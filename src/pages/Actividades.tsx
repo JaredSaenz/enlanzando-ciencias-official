@@ -16,12 +16,12 @@ const Actividades = () => {
       description:
         "En Enlazando Ciencias ofrecemos talleres prácticos y creativos diseñados para acercar la ciencia a la vida cotidiana. Entre nuestras actividades destacan la elaboración de repelentes naturales, delineadores caseros, jabones artesanales y arte en agar, donde la biología y la creatividad se unen. Cada taller busca inspirar, enseñar y mostrar cómo la ciencia puede ser divertida y útil para todos. ¡Descubre la ciencia de una manera única con nosotros!",
       image: "/actividades/actividades_talleres.webp",
-      fallbackImage: "/actividades/actividades_talleres.jpg",
+      fallbackImage: "/actividades/actividades_talleres.webp",
       link: "/actividades/talleres",
       photos: [
-        { src: "/actividades/talleres/tall-1/tall-1-1.webp", fallback: "/actividades/talleres/tall-1/tall-1-1.jpg", subtitle: "Popping boba", link: "/actividades/talleres/2" },
-        { src: "/actividades/talleres/tall-2/tall-2-1.webp", fallback: "/actividades/talleres/tall-2/tall-2-1.jpg", subtitle: "Delineadores", link: "/actividades/talleres/1" },
-        { src: "/actividades/talleres/tall-3/tall-3-1.webp", fallback: "/actividades/talleres/tall-3/tall-3-1.jpg", subtitle: "Velas", link: "/actividades/talleres/3" },
+        { src: "/actividades/talleres/tall-1/tall-1-1.webp", fallback: "/actividades/talleres/tall-1/tall-1-1.webp", subtitle: "Popping boba", link: "/actividades/talleres/2" },
+        { src: "/actividades/talleres/tall-2/tall-2-1.webp", fallback: "/actividades/talleres/tall-2/tall-2-1.webp", subtitle: "Delineadores", link: "/actividades/talleres/1" },
+        { src: "/actividades/talleres/tall-3/tall-3-1.webp", fallback: "/actividades/talleres/tall-3/tall-3-1.webp", subtitle: "Velas", link: "/actividades/talleres/3" },
       ],
     },
     {
@@ -29,12 +29,12 @@ const Actividades = () => {
       description:
         "Enlazando Ciencias se enorgullece de participar en el programa 'Hoy en tu Comunidad' de la UADY, llevando actividades de divulgación científica a comunidades. A través de dinámicas interactivas y educativas, buscamos despertar la curiosidad y fomentar el aprendizaje en niños, jóvenes y adultos. Nuestra labor refuerza el compromiso social de la universidad, conectando el conocimiento académico con las necesidades reales de la sociedad.",
       image: "/actividades/actividades_hetc.webp",
-      fallbackImage: "/actividades/actividades_hetc.jpg",
+      fallbackImage: "/actividades/actividades_hetc.webp",
       link: "/actividades/hetc",
       photos: [
-        { src: "/actividades/hetc/hetc-1/hetc-1-1.webp", fallback: "/actividades/hetc/hetc-1/hetc-1-1.jpg", subtitle: "Santa María Chi", link: "/actividades/hetc/1" },
-        { src: "/actividades/hetc/hetc-2/hetc-2-1.webp", fallback: "/actividades/hetc/hetc-2/hetc-2-1.jpg", subtitle: "Kichil", link: "/actividades/hetc/2" },
-        { src: "/actividades/hetc/hetc-3/hetc-3-1.webp", fallback: "/actividades/hetc/hetc-3/hetc-3-1.jpg", subtitle: "Xaya, Tekax", link: "/actividades/hetc/3" },
+        { src: "/actividades/hetc/hetc-1/hetc-1-1.webp", fallback: "/actividades/hetc/hetc-1/hetc-1-1.webp", subtitle: "Santa María Chi", link: "/actividades/hetc/1" },
+        { src: "/actividades/hetc/hetc-2/hetc-2-1.webp", fallback: "/actividades/hetc/hetc-2/hetc-2-1.webp", subtitle: "Kichil", link: "/actividades/hetc/2" },
+        { src: "/actividades/hetc/hetc-3/hetc-3-1.webp", fallback: "/actividades/hetc/hetc-3/hetc-3-1.webp", subtitle: "Xaya, Tekax", link: "/actividades/hetc/3" },
       ],
     },
     {
@@ -42,24 +42,24 @@ const Actividades = () => {
       description:
         "En Enlazando Ciencias impartimos conferencias dinámicas y educativas que abordan temas de interés científico y cotidiano. Algunas de nuestras charlas incluyen: 'Cómo usar tu calculadora científica', 'Antibióticos: ¿Amigos o enemigos?' y 'El papel de la mujer en la investigación y divulgación científica'. Cada conferencia busca informar, inspirar y generar reflexión sobre la importancia de la ciencia en nuestra vida diaria.",
       image: "/actividades/actividades_conferencias.webp",
-      fallbackImage: "/actividades/actividades_conferencias.jpg",
+      fallbackImage: "/actividades/actividades_conferencias.webp",
       link: "/actividades/conferencias",
       photos: [
         {
           src: "/actividades/conferencias/conf-1/conf-1-1.webp",
-          fallback: "/actividades/conferencias/conf-1/conf-1-1.jpg",
+          fallback: "/actividades/conferencias/conf-1/conf-1-1.webp",
           subtitle: "Conferencia Científica",
           link: "/actividades/conferencias/1",
         },
         {
           src: "/actividades/conferencias/conf-1/conf-1-1.webp",
-          fallback: "/actividades/conferencias/conf-1/conf-1-1.jpg",
+          fallback: "/actividades/conferencias/conf-1/conf-1-1.webp",
           subtitle: "Antibióticos: ¿Amigos o enemigos?",
           link: "/actividades/conferencias/1",
         },
         {
           src: "/actividades/conferencias/conf-1/conf-1-1.webp",
-          fallback: "/actividades/conferencias/conf-1/conf-1-1.jpg",
+          fallback: "/actividades/conferencias/conf-1/conf-1-1.webp",
           subtitle: "Ciencia y Sociedad",
           link: "/actividades/conferencias/1",
         },
@@ -72,7 +72,7 @@ const Actividades = () => {
     if (fallbackSrc && target.src !== fallbackSrc) {
       target.src = fallbackSrc
     } else {
-      target.src = "/images/Placeholder.jpg"
+      target.src = "/images/Placeholder.webp"
     }
   }, [])
 

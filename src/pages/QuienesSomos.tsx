@@ -18,7 +18,7 @@ const QuienesSomos = () => {
       <div
         className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+          backgroundImage: "url('/mesa_directiva_EC.webp')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -54,7 +54,7 @@ const QuienesSomos = () => {
             </div>
             <div>
               <img
-                src="/quienes_somos.jpg"
+                src="/quienes_somos.webp"
                 alt="Nuestro grupo"
                 className="w-full h-auto object-cover rounded-lg shadow-lg"
               />
@@ -67,7 +67,7 @@ const QuienesSomos = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-16">
             <div>
               <img
-                src="/nuestra_vision.jpg"
+                src="/nuestra_vision.webp"
                 alt="Nuestra visión"
                 className="w-full h-auto object-cover rounded-lg shadow-lg"
               />
@@ -115,7 +115,7 @@ const QuienesSomos = () => {
             </div>
             <div>
               <img
-                src="/que_hacemos.jpg"
+                src="/que_hacemos.webp"
                 alt="Qué hacemos"
                 className="w-full h-auto object-cover rounded-lg shadow-lg"
               />

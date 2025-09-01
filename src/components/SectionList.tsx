@@ -253,14 +253,14 @@ const SectionList: React.FC<SectionListProps> = ({ section }) => {
     const imageBasePath = `/actividades/${section}`
     
     if (target.src.includes(`${shortSection}-${item.id}`)) {
-      // First fallback: try JPG version
-      target.src = `${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.jpg`
-    } else if (target.src.includes('.jpg')) {
+      // First fallback: try webp version
+      target.src = `${imageBasePath}/${shortSection}-${item.id}/${shortSection}-${item.id}-1.webp`
+    } else if (target.src.includes('.webp')) {
       // Second fallback: general section image
       target.src = `${imageBasePath}/actividades_${section}.webp`
     } else if (target.src.includes(`actividades_${section}.webp`)) {
-      // Third fallback: JPG version of section image
-      target.src = `${imageBasePath}/actividades_${section}.jpg`
+      // Third fallback: webp version of section image
+      target.src = `${imageBasePath}/actividades_${section}.webp`
     } else {
       // Final fallback: placeholder
       target.src = `/placeholder.svg?height=192&width=384`
