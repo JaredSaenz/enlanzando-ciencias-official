@@ -22,17 +22,17 @@ const Divulgacion = () => {
     {
       title: "La ciencia",
       content: "La ciencia es el faro que ilumina el camino hacia el conocimiento y la comprensión del mundo que nos rodea. ¡Sigamos explorando, descubriendo y aprendiendo juntos! 🔬🌍✨",
-      image: "../public/divulgacion/divulgacion_ciencia.png"
+      image: "../public/divulgacion/divulgacion_ciencia.webp"
     },
     {
       title: "Química",
       content: "¿Te has preguntado cómo funciona el mundo? Descubre la magia de la química. ¡Acompáñanos en este viaje científico! 🔬✨",
-      image: "../public/divulgacion/divulgacion_quimica.png"
+      image: "../public/divulgacion/divulgacion_quimica.webp"
     },
     {
       title: "Clasificación de la materia",
       content: "¿Te has preguntado cómo se clasifica la materia? ¡Acompáñanos en este viaje científico! 🔬✨",
-      image: "../public/divulgacion/divulgacion_materia.jpg"
+      image: "../public/divulgacion/divulgacion_materia.webp"
     }
   ]
 
@@ -42,7 +42,7 @@ const Divulgacion = () => {
       <div
         className="relative h-[calc(100vh-4rem)] bg-cover bg-center"
         style={{
-          backgroundImage: "url('/mesa_directiva_EC.jpg')",
+          backgroundImage: "url('/mesa_directiva_EC.webp')",
         }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
